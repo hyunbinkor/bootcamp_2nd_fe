@@ -1,18 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import HostLayout from "./components/common/HostLayout.jsx";
-import GuestLayout from "./components/common/GuestLayout.jsx";
+import HomeLayout from "./components/common/HomeLayout.jsx";
+// import HostLayout from "./components/common/HostLayout.jsx";
+// import GuestLayout from "./components/common/GuestLayout.jsx";
 import Layout from "./components/common/Layout.jsx";
+import "./index.css";
+import Home from "./components/pages/Homepages/Home.jsx";
+import Login from "./components/pages/Homepages/Login.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/host", element: <HostLayout /> },
-      { path: "/guest", element: <GuestLayout /> },
+      {
+        path: "/home",
+        element: <HomeLayout />,
+        children: [
+          { path: "/home", element: <Home /> },
+          { path: "/home/login", element: <Login /> },
+        ],
+      },
+      /*,
+      { path: "/host", element: <HostLayout />, children: [] },
+      { path: "/guest", element: <GuestLayout />, children: [] },
+      */
     ],
   },
 ]);

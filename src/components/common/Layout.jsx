@@ -1,26 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
-import { useEffect, useState } from "react";
+// 전체 스타일 여기서 적용
 
 const Layout = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const getAuthStatus = () => {
-    // auth api call
-    const authResult = true;
-    setIsAuth(authResult);
-  };
-  useEffect(() => {
-    getAuthStatus();
-  }, []);
   return (
-    <>
-      <Header />
-      {isAuth && <div>인증 완료 </div>}
-      {!isAuth && <div>(!)인증 오류</div>}
+    <div className="bg-bgcolor w-screen h-screen max-w-screen-sm w-full h-full">
       <Outlet />
-      <Footer />
-    </>
+    </div>
   );
 };
 export default Layout;
