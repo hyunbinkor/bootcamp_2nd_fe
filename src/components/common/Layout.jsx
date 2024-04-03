@@ -1,26 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
-import { useEffect, useState } from "react";
+import React from 'react';
 
-const Layout = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const getAuthStatus = () => {
-    // auth api call
-    const authResult = true;
-    setIsAuth(authResult);
-  };
-  useEffect(() => {
-    getAuthStatus();
-  }, []);
+const Layout = ({ children }) => {
   return (
-    <>
-      <Header />
-      {isAuth && <div>인증 완료 </div>}
-      {!isAuth && <div>(!)인증 오류</div>}
-      <Outlet />
-      <Footer />
-    </>
+    <div className="bg-black">
+      <div className="bg-white min-h-screen max-w-500px mx-auto tracking-tight">
+        {children}
+      </div>
+    </div>
   );
 };
+
 export default Layout;
