@@ -92,7 +92,7 @@ const Questions = () => {
     //   .then((response) => {
     console.log('Answers:', answers);
     setShowModal(false);
-    navigate('/host/tree');
+    navigate('/host/tree/{:id}');
     // })
     // .catch((error) => {
     //   console.error('Error posting answers:', error);
