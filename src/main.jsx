@@ -6,6 +6,8 @@ import "./index.css";
 import Home from "./pages/Homepages/Home.jsx";
 import Kakao from "./pages/Homepages/Kakao.jsx";
 import Naver from "./pages/Homepages/Naver.jsx";
+import HostTree from "./pages/hostpages/Tree.jsx";
+import GuestTree from "./pages/guestpages/Tree.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
       { path: "/home", element: <Home /> },
       { path: "/kakao", element: <Kakao /> },
       { path: "/naver", element: <Naver /> },
+      { path: "/host/tree/:id", element: <HostTree /> },
+      { path: "/guest/tree/:id", element: <GuestTree /> },
     ],
   },
 ]);
