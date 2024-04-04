@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { Outlet } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 // 전체 스타일 여기서 적용
 
 const Layout = () => {
