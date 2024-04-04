@@ -1,5 +1,5 @@
-import { SubTitle, Title } from "../../components/atom/Titles";
-import { KakaoButton, NaverButton } from "../../components/atom/Buttons";
+import { SubTitle, Title } from '../../components/atom/Titles';
+import { KakaoButton, NaverButton } from '../../components/atom/Buttons';
 
 const Home = () => {
   return (
