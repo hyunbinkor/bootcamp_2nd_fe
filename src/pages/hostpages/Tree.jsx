@@ -15,19 +15,19 @@ import img11 from './img/img11.png';
 
 function Decoration({ imageUrl, onClick }) {
   return (
-    <img src={imageUrl} className="w-10 h-10 sm:w-12 sm:h-12 md:w-12 md:h-12   rounded-full cursor-pointer" alt="Decoration" onClick={onClick} />
+    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12   rounded-full cursor-pointer" alt="Decoration" onClick={onClick} />
   );
 }
 
 function DecorationRow({ images }) {
   const decorations = images.map((imageUrl, index) => (
-    <div key={index} className="mx-5 sm:mx-3 md:mx-16 lg:mx-7 xl:mx-8">
+    <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8">
       <Decoration imageUrl={imageUrl} onClick={() => alert(`장식 ${index + 1}이(가) 클릭되었습니다!`)} />
     </div>
   ));
 
   return (
-    <div className="flex my-8 sm:my-3 md:my-16 lg:my-7 xl:my-11 justify-center">
+    <div className="flex my-8 sm:my-4 md:my-16 lg:my-6 xl:my-10 justify-center">
       {decorations}
     </div>
   );
@@ -91,7 +91,7 @@ function HostTree() {
 
           <div className="flex justify-center">
             <div
-              className="rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-100"
+              className="bottom-0 rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-100"
               onClick={() =>
                 handleCopyClipBoard(`${baseUrl}${location.pathname}`)
               }
