@@ -105,8 +105,8 @@ const Questions = () => {
   };
 
   return (
-    <div className="min-h-screen pl-5 pt-20 pr-5 py-px_15 relative text-neutral-content font-custom">
-      <div className=" py-px_120 pl-5  text-xl font-bold">
+    <div className="min-h-screen px-5 pt-20 py-px_15 relative text-neutral-content font-custom">
+      <div className="py-px_120 pl-5  text-xl font-bold">
         {questions[currentIndex]}
       </div>
       <div className="flex justify-center">
