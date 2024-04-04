@@ -6,7 +6,7 @@ import './index.css';
 import Home from './pages/Homepages/Home.jsx';
 import Kakao from './pages/Homepages/Kakao.jsx';
 import Naver from './pages/Homepages/Naver.jsx';
-import Questions from './components/pages/hostpages/Questions.jsx';
+import Questions from './pages/hostpages/Questions.jsx';
 
 const router = createBrowserRouter([
   {
