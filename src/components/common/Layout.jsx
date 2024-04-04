@@ -1,6 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
 import { useEffect, useState } from "react";
 
 const Layout = () => {
@@ -15,11 +13,7 @@ const Layout = () => {
   }, []);
   return (
     <>
-      <Header />
-      {isAuth && <div>인증 완료 </div>}
-      {!isAuth && <div>(!)인증 오류</div>}
       <Outlet />
-      <Footer />
     </>
   );
 };
