@@ -1,18 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import HostLayout from "./components/common/HostLayout.jsx";
-import GuestLayout from "./components/common/GuestLayout.jsx";
 import Layout from "./components/common/Layout.jsx";
+import "./index.css";
+import Home from "./pages/Homepages/Home.jsx";
+import Kakao from "./pages/Homepages/Kakao.jsx";
+import Naver from "./pages/Homepages/Naver.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/host", element: <HostLayout /> },
-      { path: "/guest", element: <GuestLayout /> },
+      { path: "/home", element: <Home /> },
+      { path: "/kakao", element: <Kakao /> },
+      { path: "/naver", element: <Naver /> },
     ],
   },
 ]);
