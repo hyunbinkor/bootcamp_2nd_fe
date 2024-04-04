@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import backgroundImage from './TreeBackground.png';
-import { useNavigate } from 'react-router-dom';
-import img1 from './img/img1.png';
-import img2 from './img/img2.png';
-import img3 from './img/img3.png';
-import img4 from './img/img4.png';
-import img5 from './img/img5.png';
-import img6 from './img/img6.png';
-import img7 from './img/img7.png';
-import img8 from './img/img8.png';
-import img9 from './img/img9.png';
-import img10 from './img/img10.png';
-import img11 from './img/img11.png';
+import React, { useState } from "react";
+import backgroundImage from "./TreeBackground.png";
+import { useNavigate } from "react-router-dom";
+import img1 from "./img/img1.png";
+import img2 from "./img/img2.png";
+import img3 from "./img/img3.png";
+import img4 from "./img/img4.png";
+import img5 from "./img/img5.png";
+import img6 from "./img/img6.png";
+import img7 from "./img/img7.png";
+import img8 from "./img/img8.png";
+import img9 from "./img/img9.png";
+import img10 from "./img/img10.png";
+import img11 from "./img/img11.png";
 
 function Decoration({ imageUrl }) {
   return (
-    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full" alt="Decoration" />
+    <img
+      src={imageUrl}
+      className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full"
+      alt="Decoration"
+    />
   );
 }
 
@@ -46,11 +50,11 @@ function GuestTree() {
     img8,
     img9,
     img10,
-    img11
+    img11,
   ]);
 
   const handleButtonClick = () => {
-    navigate('/guest/image');
+    navigate("image");
   };
 
   // 장식 배열을 원하는 구조에 맞게 분할합니다.
@@ -58,7 +62,7 @@ function GuestTree() {
     decorations.slice(0, 1),
     decorations.slice(1, 4),
     decorations.slice(4, 7),
-    decorations.slice(7, 11)
+    decorations.slice(7, 11),
   ];
 
   return (
@@ -77,7 +81,6 @@ function GuestTree() {
             alt="Background"
           />
           <div className="absolute top-1 flex flex-col justify-center">
-            {/* 각 배열에 대해 별도의 DecorationRow 컴포넌트를 렌더링합니다. */}
             {rows.map((rowImages, index) => (
               <DecorationRow key={index} images={rowImages} />
             ))}
@@ -86,7 +89,7 @@ function GuestTree() {
             className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-200"
             onClick={handleButtonClick}
           >
-            메시지 남기기
+            새 글 쓰기
           </div>
         </div>
       </div>
