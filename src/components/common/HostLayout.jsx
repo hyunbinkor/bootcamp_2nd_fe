@@ -1,13 +1,20 @@
-import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const HostLayout = ({ children }) => {
+const HostLayout = () => {
+  const [isAuth, setIsAuth] = useState(false);
+  const getAuthStatus = () => {
+    // auth api call
+    const authResult = true;
+    setIsAuth(authResult);
+  };
+  useEffect(() => {
+    getAuthStatus();
+  }, []);
   return (
-    <div className="bg-black">
-      <div className="bg-white min-h-screen max-w-500px mx-auto tracking-tight">
-        {children}
-      </div>
-    </div>
+    <>
+      <Outlet />
+    </>
   );
 };
-
 export default HostLayout;
