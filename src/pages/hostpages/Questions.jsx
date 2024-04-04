@@ -105,8 +105,8 @@ const Questions = () => {
   };
 
   return (
-    <div className="min-h-screen pl-5 pt-20 pr-5 py-px_15 relative">
-      <div className="text-black py-px_120 pl-5 text-xl font-bold">
+    <div className="min-h-screen pl-5 pt-20 pr-5 py-px_15 relative text-neutral-content font-custom">
+      <div className=" py-px_120 pl-5  text-xl font-bold">
         {questions[currentIndex]}
       </div>
       <div className="flex justify-center">
@@ -117,20 +117,20 @@ const Questions = () => {
             onChange={(e) =>
               handleInputChange(e, inputFieldNames[currentIndex])
             }
-            className="border-b border-gray-500 text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
+            className="border-b  text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
           />
         ) : (
-          <div className="flex justify-center">
+          <div className="flex justify-center text-xl font-bold">
             {currentIndex === 0 ? (
               <div className="flex flex-col max-w-full gap-4 mt-16">
                 <button
-                  className="bg-blue-500 text-white px-32 py-4 max-w-full rounded-md"
+                  className="border border-stcolor px-32 py-4 rounded-md"
                   onClick={() => handleButtonClick('응')}
                 >
                   응
                 </button>
                 <button
-                  className="bg-green-500 text-white px-32 py-4 rounded-md"
+                  className=" border border-stcolor px-32 py-4 rounded-md"
                   onClick={() => handleButtonClick('아니오')}
                 >
                   그래
@@ -139,46 +139,25 @@ const Questions = () => {
             ) : currentIndex === 2 ? (
               <div className="flex flex-col max-w-full gap-4 mt-16">
                 <button
-                  className="bg-blue-500 text-white px-32 py-4 max-w-full rounded-md"
+                  className="border border-stcolor px-32 py-4 max-w-full rounded-md"
                   onClick={() => handleButtonClick('Blue')}
                 >
                   Blue
                 </button>
                 <button
-                  className="bg-green-500 text-white px-32 py-4 rounded-md"
+                  className="border border-stcolor px-32 py-4 rounded-md"
                   onClick={() => handleButtonClick('Green')}
                 >
                   Green
                 </button>
                 <button
-                  className="bg-yellow-500 text-white px-32 py-4 rounded-md"
+                  className=" border border-stcolor px-32 py-4 rounded-md"
                   onClick={() => handleButtonClick('Yellow')}
                 >
                   Yellow
                 </button>
               </div>
-            ) : (
-              <div className="flex gap-4 mt-10">
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleButtonClick('Blue')}
-                >
-                  Blue
-                </button>
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleButtonClick('Green')}
-                >
-                  Green
-                </button>
-                <button
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleButtonClick('Yellow')}
-                >
-                  Yellow
-                </button>
-              </div>
-            )}
+            ) : null}
           </div>
         )}
       </div>
