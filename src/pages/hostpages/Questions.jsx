@@ -1,4 +1,5 @@
-import React, { useState, useHistory } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
 
 const Questions = () => {
@@ -6,7 +7,6 @@ const Questions = () => {
   const [hasTree, setHasTree] = useState(false); // 트리 보유 여부
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
   const [answers, setAnswers] = useState({
-    //답변
     ok: '',
     nickName: '',
     color: '',
@@ -14,13 +14,13 @@ const Questions = () => {
   });
   const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
   const questions = [
     '트리를 만들기 전에 몇 가지 질문에 대답해줘😃',
     '너를 부르는 별명을 알려줘!',
     '너는 어떤 색깔을 좋아해? 🎨',
     '트리 이름을 지어줘! 🎄'
   ];
-  //   const history = useHistory();
 
   // 페이지가 로드될 때 사용자 정보를 가져오는 API 호출
   //   useEffect(() => {
@@ -45,7 +45,7 @@ const Questions = () => {
   //     }
   //   }, [isLoggedIn, hasTree, history]);
 
-  // input 답변창
+  // input 답변내역 저장
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
     setAnswers((prevAnswers) => ({
@@ -54,7 +54,7 @@ const Questions = () => {
     }));
   };
 
-  // button 답변
+  // button 답변내역 저장
   const handleButtonClick = (answer) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -62,38 +62,44 @@ const Questions = () => {
     }));
   };
 
-  // 각 질문마다 다음 버튼을 눌렀을 때
+  // 각 질문마다 다음 버튼을 눌렀을 때 질문 이동
   const handleNextClick = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
 
-  // 각 질문마다 이전 버튼을 눌렀을 때
+  // 각 질문마다 이전 버튼을 눌렀을 때 질문 이동
   const handlePrevClick = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
   };
 
-  // 마지막 질문에서 완료 버튼을 눌렀을 때
+  // 마지막 질문에서 완료 버튼을 눌렀을 때 모달 생성
   const handleCompleteClick = () => {
     setShowModal(true);
   };
 
-  // 모달창에서 닫기 버튼을 눌렀을 때
+  // 모달창에서 닫기 버튼을 눌렀을 때 모달 해제
   const handleModalClose = () => {
     setShowModal(false);
   };
 
-  // 모달창에서 완료 버튼을 눌렀을때
-  // **to do: post 요청 추가 필요
+  // 모달창에서 완료 버튼을 눌렀을때 백으로 답변 내역을 보내고, 모달 해제, tree 페이지로 이동
   const handleModalComplete = () => {
+    // axios.post('/api/answers', answers)  //api 요청시 주석해제
+    //   .then((response) => {
     console.log('Answers:', answers);
     setShowModal(false);
+    navigate('/host/tree');
+    // })
+    // .catch((error) => {
+    //   console.error('Error posting answers:', error);
+    // });
   };
 
-  // 모든 답변이 입력되었는지 확인하는 함수
+  // 각 단계마다 답변이 입력되었는지 확인
   const isAnswerEntered = (index) => {
     return answers[inputFieldNames[index]] !== '';
   };
@@ -111,7 +117,7 @@ const Questions = () => {
             onChange={(e) =>
               handleInputChange(e, inputFieldNames[currentIndex])
             }
-            className="border-b border-gray-500 text-black bg-white px-3 py-2 mt-40 align-center text-center outline-none"
+            className="border-b border-gray-500 text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
           />
         ) : (
           <div className="flex justify-center">
@@ -221,7 +227,7 @@ const Questions = () => {
 
       {showModal && (
         <Modal
-          message="작성하신 내용은 수정이 어려워요. 신중하게 작성해 주세요!"
+          message="작성하신 내용은 수정이 어려워요. <br/> 신중하게 작성해 주세요!"
           onClose={handleModalClose}
           onComplete={handleModalComplete}
         />
