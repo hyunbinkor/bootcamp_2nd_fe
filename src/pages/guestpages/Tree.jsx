@@ -15,19 +15,19 @@ import img11 from "./img/img11.png";
 
 function Decoration({ imageUrl }) {
   return (
-    <img src={imageUrl} className="w-12 h-12 rounded-full" alt="Decoration" />
+    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full" alt="Decoration" />
   );
 }
 
 function DecorationRow({ images }) {
   const decorations = images.map((imageUrl, index) => (
-    <div key={index} className="mx-5 sm:mx-4 md:mx-16 lg:mx-8 xl:mx-8 ">
+    <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8 ">
       <Decoration imageUrl={imageUrl} />
     </div>
   ));
 
   return (
-    <div className="flex my-7 sm:my-1 md:my-20 lg:my-16 xl:my-10 justify-center">
+    <div className="flex my-8 sm:my-4 md:my-16 lg:my-6 xl:my-10  justify-center">
       {decorations}
     </div>
   );
@@ -83,7 +83,7 @@ function GuestTree() {
             ))}
           </div>
           <div
-            className="mt-4 rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-100"
+            className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-200"
             onClick={handleButtonClick}
           >
             메시지 남기기
