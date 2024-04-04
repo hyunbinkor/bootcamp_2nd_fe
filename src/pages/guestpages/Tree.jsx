@@ -15,7 +15,11 @@ import img11 from "./img/img11.png";
 
 function Decoration({ imageUrl }) {
   return (
-    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full" alt="Decoration" />
+    <img
+      src={imageUrl}
+      className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full"
+      alt="Decoration"
+    />
   );
 }
 
@@ -77,7 +81,6 @@ function GuestTree() {
             alt="Background"
           />
           <div className="absolute top-1 flex flex-col justify-center">
-            {/* 각 배열에 대해 별도의 DecorationRow 컴포넌트를 렌더링합니다. */}
             {rows.map((rowImages, index) => (
               <DecorationRow key={index} images={rowImages} />
             ))}
@@ -86,7 +89,7 @@ function GuestTree() {
             className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-200"
             onClick={handleButtonClick}
           >
-            메시지 남기기
+            새 글 쓰기
           </div>
         </div>
       </div>
