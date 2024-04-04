@@ -9,6 +9,8 @@ import Naver from './pages/Homepages/Naver.jsx';
 import HostTree from './pages/hostpages/Tree.jsx';
 import GuestTree from './pages/guestpages/Tree.jsx';
 import Questions from './pages/hostpages/Questions.jsx';
+import SelectImage from './pages/guestpages/SelectImage.jsx';
+import Message from './pages/guestpages/Message.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,9 +20,11 @@ const router = createBrowserRouter([
       { path: '/home', element: <Home /> },
       { path: '/kakao', element: <Kakao /> },
       { path: '/naver', element: <Naver /> },
-      { path: '/host/question', element: <Questions /> },
       { path: '/host/tree/:id', element: <HostTree /> },
-      { path: '/guest/tree/:id', element: <GuestTree /> }
+      { path: '/guest/tree/:id', element: <GuestTree /> },
+      { path: '/guest/tree/:id/image', element: <SelectImage /> },
+      { path: '/guest/tree/:id/image/message', element: <Message /> },
+      { path: '/host/question', element: <Questions /> }
     ]
   }
 ]);
