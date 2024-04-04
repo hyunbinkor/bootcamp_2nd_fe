@@ -1,5 +1,5 @@
-import { SubTitle, Title } from "../../atom/Titles";
-import { KakaoButton, NaverButton } from "../../atom/Buttons";
+import { SubTitle, Title } from '../../components/atom/Titles';
+import { KakaoButton, NaverButton } from '../../components/atom/Buttons';
 
 const Home = () => {
   return (
@@ -16,9 +16,9 @@ const Home = () => {
       </div>
       <div className="h-5/6" />
       <div className="w-full place-content-end">
-        <KakaoButton />
+        <KakaoButton redirect="/kakao" />
         <div className="my-4" />
-        <NaverButton />
+        <NaverButton redirect="/naver" />
       </div>
     </div>
   );
