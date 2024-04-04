@@ -1,28 +1,28 @@
 /** @type {import('tailwindcss').Config} */
-const { fontFamily } = require("tailwindcss/defaultTheme");
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
-      bgcolor: "#FFFBEB",
-      ttcolor: "#080707",
-      stcolor: "#595454",
+      bgcolor: '#FFFBEB',
+      ttcolor: '#080707',
+      stcolor: '#595454'
     },
     fontFamily: {
-      custom: ["custom"],
-    },
+      custom: ['custom']
+    }
   },
   daisyui: {
     themes: [
       {
         custom: {
-          warning: "#FEE500",
-          success: "#2DB400",
-          error: "#FF9800",
-        },
-      },
-    ],
+          warning: '#FEE500',
+          success: '#2DB400',
+          error: '#FF9800'
+        }
+      }
+    ]
   },
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')]
 };
