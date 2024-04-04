@@ -5,8 +5,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HostLayout from './components/common/HostLayout.jsx';
 import GuestLayout from './components/common/GuestLayout.jsx';
 import Layout from './components/common/Layout.jsx';
-import HostTree from './components/pages/hostpages/Tree.jsx';
-import GuestTree from './components/pages/guestpages/Tree.jsx';
+import HostTree from './pages/hostpages/Tree.jsx';
+import GuestTree from './pages/guestpages/Tree.jsx';
 
 const router = createBrowserRouter([
   {
