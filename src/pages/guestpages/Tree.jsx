@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import backgroundImage from './TreeBackground.png';
-import { useNavigate } from 'react-router-dom';
-import img1 from './img/img1.png';
-import img2 from './img/img2.png';
-import img3 from './img/img3.png';
-import img4 from './img/img4.png';
-import img5 from './img/img5.png';
-import img6 from './img/img6.png';
-import img7 from './img/img7.png';
-import img8 from './img/img8.png';
-import img9 from './img/img9.png';
-import img10 from './img/img10.png';
-import img11 from './img/img11.png';
+import React, { useState } from "react";
+import backgroundImage from "./TreeBackground.png";
+import { useNavigate } from "react-router-dom";
+import img1 from "./img/img1.png";
+import img2 from "./img/img2.png";
+import img3 from "./img/img3.png";
+import img4 from "./img/img4.png";
+import img5 from "./img/img5.png";
+import img6 from "./img/img6.png";
+import img7 from "./img/img7.png";
+import img8 from "./img/img8.png";
+import img9 from "./img/img9.png";
+import img10 from "./img/img10.png";
+import img11 from "./img/img11.png";
 
 function Decoration({ imageUrl }) {
   return (
@@ -46,11 +46,11 @@ function GuestTree() {
     img8,
     img9,
     img10,
-    img11
+    img11,
   ]);
 
   const handleButtonClick = () => {
-    navigate('/guest/image');
+    navigate("image");
   };
 
   // 장식 배열을 원하는 구조에 맞게 분할합니다.
@@ -58,7 +58,7 @@ function GuestTree() {
     decorations.slice(0, 1),
     decorations.slice(1, 4),
     decorations.slice(4, 7),
-    decorations.slice(7, 11)
+    decorations.slice(7, 11),
   ];
 
   return (
