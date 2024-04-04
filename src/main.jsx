@@ -1,32 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import HostLayout from './components/common/HostLayout.jsx';
-import GuestLayout from './components/common/GuestLayout.jsx';
-import Layout from './components/common/Layout.jsx';
-import HostTree from './pages/hostpages/Tree.jsx';
-import GuestTree from './pages/guestpages/Tree.jsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./components/common/Layout.jsx";
+import "./index.css";
+import Home from "./pages/Homepages/Home.jsx";
+import Kakao from "./pages/Homepages/Kakao.jsx";
+import Naver from "./pages/Homepages/Naver.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
-      {
-        path: 'host',
-        element: <HostLayout />,
-        children: [{ path: 'tree/:temp', element: <HostTree /> }]
-      },
-      {
-        path: 'guest',
-        element: <GuestLayout />,
-        children: [{ path: 'tree/:temp', element: <GuestTree /> },]
-      }
-    ]
-  }
+      { path: "/home", element: <Home /> },
+      { path: "/kakao", element: <Kakao /> },
+      { path: "/naver", element: <Naver /> },
+    ],
+  },
 ]);
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

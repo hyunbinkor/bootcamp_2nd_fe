@@ -1,22 +1,28 @@
 /** @type {import('tailwindcss').Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme");
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      height: {
-        'real-screen': 'calc(var(--vh) * 100)',
-      },
-      minHeight: {
-        'real-screen': 'calc(var(--vh) * 100)',
-      },
-      spacing: {
-        'first': '2rem', // 원하는 값으로 설정 (1rem = 4px)
-        'second': '14rem', // 원하는 값으로 설정 (1rem = 4px)
-        'third': '22rem', // 원하는 값으로 설정 (1rem = 4px)
-        'fourth': '30rem', // 원하는 값으로 설정 (1rem = 4px)
-
-      },
+    colors: {
+      bgcolor: "#FFFBEB",
+      ttcolor: "#080707",
+      stcolor: "#595454",
     },
+    fontFamily: {
+      custom: ["custom"],
+    },
+  },
+  daisyui: {
+    themes: [
+      {
+        custom: {
+          warning: "#FEE500",
+          success: "#2DB400",
+          error: "#FF9800",
+        },
+      },
+    ],
   },
   plugins: [require("daisyui")],
 };
