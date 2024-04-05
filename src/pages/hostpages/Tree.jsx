@@ -15,14 +15,20 @@ import img11 from './img/img11.png';
 
 function Decoration({ imageUrl, onClick }) {
   return (
-    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12   rounded-full cursor-pointer" alt="Decoration" onClick={onClick} />
+    <img
+      src={imageUrl}
+      className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12   rounded-full cursor-pointer"
+      alt="Decoration"
+      onClick={onClick}
+    />
   );
 }
 
 function DecorationRow({ images }) {
+  const navigate = useNavigate();
   const decorations = images.map((imageUrl, index) => (
     <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8">
-      <Decoration imageUrl={imageUrl} onClick={() => alert(`장식 ${index + 1}이(가) 클릭되었습니다!`)} />
+      <Decoration imageUrl={imageUrl} onClick={() => navigate('message')} />
     </div>
   ));
 
@@ -34,7 +40,7 @@ function DecorationRow({ images }) {
 }
 function HostTree() {
   const navigate = useNavigate();
-  const baseUrl = "localhost:4000"
+  const baseUrl = 'localhost:4000';
   // decorations 상태는 그대로 유지합니다.
   const [decorations, setDecorations] = useState([
     img1,

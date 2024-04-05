@@ -11,6 +11,7 @@ import GuestTree from './pages/guestpages/Tree.jsx';
 import Questions from './pages/hostpages/Questions.jsx';
 import SelectImage from './pages/guestpages/SelectImage.jsx';
 import Message from './pages/guestpages/Message.jsx';
+import HostMessage from './pages/hostpages/Message.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/kakao', element: <Kakao /> },
       { path: '/naver', element: <Naver /> },
       { path: '/host/tree/:id', element: <HostTree /> },
+      { path: '/host/tree/:id/message', element: <HostMessage /> },
       { path: '/guest/tree/:id', element: <GuestTree /> },
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
