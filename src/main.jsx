@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/common/Layout.jsx';
 import './index.css';
 import Home from './pages/Homepages/Home.jsx';
-import Kakao from './pages/Homepages/Kakao.jsx';
+// import Kakao from './pages/Homepages/Kakao.jsx';
 import Naver from './pages/Homepages/Naver.jsx';
 import HostTree from './pages/hostpages/Tree.jsx';
 import GuestTree from './pages/guestpages/Tree.jsx';

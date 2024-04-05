@@ -2,6 +2,9 @@ import { SubTitle, Title } from '../../components/atom/Titles';
 import { KakaoButton, NaverButton } from '../../components/atom/Buttons';
 
 const Home = () => {
+  if (!window.Kakao.isInitialized()) {
+    window.Kakao.init(import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY);
+  }
   return (
     <div className="flex flex-col w-full h-full max-w-screen-sm px-14 py-12">
       <div className="h-1/6" />
@@ -16,9 +19,9 @@ const Home = () => {
       </div>
       <div className="h-5/6" />
       <div className="w-full place-content-end">
-        <KakaoButton redirect="/kakao" />
+        <KakaoButton />
         <div className="my-4" />
-        <NaverButton redirect="/naver" />
+        <NaverButton />
       </div>
     </div>
   );

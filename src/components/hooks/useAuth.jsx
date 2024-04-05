@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-const publicPaths = ["/", "/home", "/naver", "/kakao"];
-const privatePaths = [];
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+const publicPaths = ['/', '/home', '/naver', '/kakao', '/guest/*'];
+const privatePaths = ['/host/*'];
 
 const useAuth = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -22,7 +22,7 @@ const useAuth = () => {
   }, [location.pathname]);
   return {
     isAuth,
-    isLoading,
+    isLoading
   };
 };
 
