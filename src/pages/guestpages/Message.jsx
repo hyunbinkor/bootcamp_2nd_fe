@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
+import BackArrow from '../../components/atom/BackArrow';
 
 function Message(props) {
   const [input, setInput] = useState('');
@@ -64,6 +65,7 @@ function Message(props) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <BackArrow />
       <h1 className="text-center my-8 text-2xl font-bold">
         메세지를 남겨주세요!
       </h1>
