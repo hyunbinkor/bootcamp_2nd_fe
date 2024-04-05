@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import BackArrow from '../../components/atom/BackArrow';
 
 const images = [
   { id: 1, src: 'image1.jpg', alt: '이미지 1', info: '이미지 1 정보' },
@@ -68,8 +69,9 @@ const SelectImage = () => {
 
   return (
     <div className="min-h-screen flex flex-col ">
+      <BackArrow />
       <div className="relative flex-grow">
-        <div className="flex flex-col mt-32 px-6 items-center justify-center">
+        <div className="flex flex-col mt-16 px-6 items-center justify-center">
           <div
             style={{ width: '298px', height: '403px' }}
             className="grid grid-cols-3 gap-4
