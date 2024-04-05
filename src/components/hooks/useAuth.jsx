@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { apiLoginKakao } from '../../utils/api';
 const publicPaths = ['/', '/home', '/naver', '/kakao', '/guest/*'];
 const privatePaths = ['/host/*'];
 
-const useAuth = () => {
+const useAuth = async () => {
   const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const getAuthStatus = () => {
+  const getAuthStatus = async () => {
     setIsLoading(true);
-    // auth api call [async/await]
-    const authResult = true;
+    const authResult = await apiLoginKakao();
     setIsLoading(false);
     setIsAuth(authResult);
   };
