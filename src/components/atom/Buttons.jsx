@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 const KakaoButton = () => {
-  const handleLoginKakao = () => {
+  const handleLoginKakao = async () => {
     // const redirectUri = `${import.meta.env.VITE_API_URI}/api/oauth/kakao`;
     // window.Kakao.Auth.authorize({
     //   redirectUri
