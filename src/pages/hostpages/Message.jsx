@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate import
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function Message(props) {
+async function fetchMessage(messageId) {
+  try {
+    const response = await axios.get(
+      `http://3.39.232.205:8080/api/message/${messageId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('메세지를 불러오는데 실패했습니다:', error);
+    return null;
+  }
+}
+
+//props로 넘기든.. location을 쓰든.. 일단 message고유값 ! 받아야 함
+function Message({ messageId }) {
   const [showModal, setShowModal] = useState(true);
+  const [input, setInput] = useState('');
 
-  const input = '바보';
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await fetchMessage(messageId);
+      if (data) {
+        setInput(data);
+      }
+    };
+    loadData();
+  }, [messageId]);
 
   const closeNote = () => {
     navigate(-1);

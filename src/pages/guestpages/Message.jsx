@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
 import BackArrow from '../../components/atom/BackArrow';
 
-function Message(props) {
+function Message() {
   const [input, setInput] = useState('');
 
+  const navigate = useNavigate();
   const location = useLocation();
-  const { image, uniqueId } = location.state;
+  const { image } = location.state;
 
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -50,16 +51,22 @@ function Message(props) {
   };
 
   const addNote = async () => {
-    const url = `/api/message/${treeId}/write`;
     try {
-      const response = await axios.post(url, {
-        text: input,
-        image: image
-      });
-      console.log('메시지가 성공적으로 전송되었습니다.', response.data);
+      //treeId=> props로 받으면 그때 설정
+      const response = await axios.post(
+        `http://3.39.232.205:8080/api/message/${3}/write`,
+        {
+          message: input,
+          image
+        }
+      );
+
       setInput('');
+      navigate(`../guest/tree/${treeId}`);
     } catch (error) {
-      console.error('메시지 전송에 실패했습니다.', error);
+      handleAlertCreate(
+        '메시지 전송에 실패했습니다. <br /> 다시 시도해주세요 ㅠ.ㅠ'
+      );
     }
   };
 
