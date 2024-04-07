@@ -7,7 +7,7 @@ import axios from 'axios';
 async function fetchAllMessage(treeId) {
   try {
     const response = await axios.get(
-      `http://3.39.232.205:8080/api/message/dOHUTGJKOQ94l4184NU7/all`
+      `http://3.39.232.205:8080/api/message/4ff85ae1cd6e476cb47addce5479c689/all`
     );
     return response.data;
   } catch (error) {
@@ -30,15 +30,15 @@ function Decoration({ imageUrl, onClick }) {
 function DecorationRow({ images }) {
   const navigate = useNavigate();
 
-  const handleDecorationClick = (message) => {
-    navigate('message', { state: { message } });
+  const handleDecorationClick = (message, icon) => {
+    navigate('message', { state: { message, icon } });
   };
 
   const decorations = images.map((imageUrl, index) => (
     <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8">
       <Decoration
         imageUrl={imageUrl.icon}
-        onClick={() => handleDecorationClick(imageUrl.message)}
+        onClick={() => handleDecorationClick(imageUrl.message, imageUrl.icon)}
       />
     </div>
   ));
@@ -52,7 +52,7 @@ function DecorationRow({ images }) {
 function HostTree() {
   const navigate = useNavigate();
   const { treeId } = useParams();
-  const baseUrl = 'localhost:4000'
+  const baseUrl = 'localhost:4000';
   const [decorations, setDecorations] = useState([]);
 
   useEffect(() => {
