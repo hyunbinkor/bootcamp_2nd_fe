@@ -1,35 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-async function fetchMessage(messageId) {
-  try {
-    const response = await axios.get(
-      `http://3.39.232.205:8080/api/message/${messageId}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error('메세지를 불러오는데 실패했습니다:', error);
-    return null;
-  }
-}
-
-//props로 넘기든.. location을 쓰든.. 일단 message고유값 ! 받아야 함
-function Message({ messageId }) {
+function Message() {
   const [showModal, setShowModal] = useState(true);
   const [input, setInput] = useState('');
+  const [image, setImage] = useState('');
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const loadData = async () => {
-      const data = await fetchMessage(messageId);
-      if (data) {
-        setInput(data);
-      }
-    };
-    loadData();
-  }, [messageId]);
+    const { message, icon } = location.state;
+    setInput(message);
+    setImage(icon);
+  }, [location.state]);
 
   const closeNote = () => {
     navigate(-1);
@@ -38,7 +22,13 @@ function Message({ messageId }) {
   return showModal ? (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="relative flex-grow">
-        <div className="flex flex-col items-center justify-center mt-32">
+        <div className="flex flex-col items-center justify-center mt-16">
+          <img
+            src={image}
+            alt="아이콘"
+            className="
+                  w-20 h-20 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full"
+          />
           <textarea
             className="shadow-lg px-2 resize-none"
             value={input}
