@@ -79,6 +79,12 @@ function Message() {
       </h1>
       <div className="relative flex-grow">
         <div className="flex flex-col items-center justify-center">
+          <img
+            src={image}
+            alt="아이콘"
+            className="
+                  w-20 h-20 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full"
+          />
           <textarea
             className="shadow-lg px-2 resize-none"
             value={input}
