@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
@@ -11,6 +11,8 @@ function Message() {
   const navigate = useNavigate();
   const location = useLocation();
   const { image } = location.state;
+  const params = useParams();
+  const treeId = params.id;
 
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -52,15 +54,14 @@ function Message() {
 
   const addNote = async () => {
     try {
-      //treeId=> props로 받으면 그때 설정
       const response = await axios.post(
-        `http://3.39.232.205:8080/api/message/${3}/write`,
+        `http://3.39.232.205:8080/api/message/${treeId}/write`,
         {
           message: input,
-          image
+          icon: image
         }
       );
-
+      handleAlertCreate('트리에 달기 성공!');
       setInput('');
       navigate(`../guest/tree/${treeId}`);
     } catch (error) {

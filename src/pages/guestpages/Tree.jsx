@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import backgroundImage from './TreeBackground.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import axios from 'axios';
 async function fetchAllMessage(treeId) {
   try {
     const response = await axios.get(
-      `http://3.39.232.205:8080/api/message/dOHUTGJKOQ94l4184NU7/all`
+      `http://3.39.232.205:8080/api/message/4ff85ae1cd6e476cb47addce5479c689/all`
     );
     return response.data;
   } catch (error) {
@@ -52,7 +52,7 @@ function GuestTree() {
   const { treeId } = useParams();
   const [decorations, setDecorations] = useState([]);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchMessages = async () => {
       const allMessage = await fetchAllMessage(treeId);
@@ -64,7 +64,7 @@ function GuestTree() {
   }, [treeId]);
 
   const handleButtonClick = () => {
-    navigate(`/guest/tree/${treeId}/image`);
+    navigate(`/guest/tree/4ff85ae1cd6e476cb47addce5479c689/image`);
   };
 
   // 장식 배열을 원하는 구조에 맞게 분할합니다.
