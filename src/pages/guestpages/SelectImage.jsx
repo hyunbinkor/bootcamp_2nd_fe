@@ -57,6 +57,9 @@ const SelectImage = () => {
       <BackArrow />
       <div className="relative flex-grow">
         <div className="flex flex-col mt-16 px-6 items-center justify-center">
+          <h1 className="text-neutral text-3xl font-custom font-black mb-8">
+            스티커를 골라봐!
+          </h1>
           <div
             style={{ width: '298px', height: '403px' }}
             className="grid grid-cols-3 gap-4
