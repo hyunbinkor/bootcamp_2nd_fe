@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const KakaoButton = () => {
   const handleLoginKakao = async () => {
-    const redirectUri = `${import.meta.env.VITE_API_URI}/api/oauth/kakao`;
-    window.Kakao.Auth.authorize({
-      redirectUri
-    });
-    // window.location.href =
-    //   'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c84840525d9cdbf1a8ba40a6b6f62089&redirect_uri=http://3.39.232.205:8080/api/oauth/kakao';
+    // const redirectUri = `${import.meta.env.VITE_API_URI}/api/oauth/kakao`;
+    // window.Kakao.Auth.authorize({
+    //   redirectUri
+    // });
+    window.location.href =
+      'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c84840525d9cdbf1a8ba40a6b6f62089&redirect_uri=http://3.39.232.205:8080/api/oauth/kakao';
   };
   return (
     <button onClick={handleLoginKakao} className="btn btn-warning w-full">
