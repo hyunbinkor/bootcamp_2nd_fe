@@ -21,29 +21,7 @@ const Questions = () => {
     '너는 어떤 색깔을 좋아해? 🎨',
     '트리 이름을 지어줘! 🎄'
   ];
-
-  // 페이지가 로드될 때 사용자 정보를 가져오는 API 호출
-  //   useEffect(() => {
-  //     axios
-  //       .get('/api/user/info')
-  //       .then((response) => {
-  //         const userInfo = response.data;
-  //         setIsLoggedIn(userInfo.isLoggedIn);
-  //         setHasTree(userInfo.hasTree);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }, []);
-
-  //  // 로그인 상태 및 트리 보유 여부에 따라 페이지 이동
-  //   useEffect(() => {
-  //     if (!isLoggedIn) {
-  //       history.push('/home'); // 로그인 상태가 아닌 경우 홈으로 이동
-  //     } else if (isLoggedIn && !hasTree) {
-  //       history.push('/host/tree'); // 로그인은 되어 있지만 트리가 없는 경우 트리 호스팅 페이지로 이동
-  //     }
-  //   }, [isLoggedIn, hasTree, history]);
+  const [clickedIndex, setClickedIndex] = useState(null);
 
   // input 답변내역 저장
   const handleInputChange = (e, fieldName) => {
@@ -55,11 +33,12 @@ const Questions = () => {
   };
 
   // button 답변내역 저장
-  const handleButtonClick = (answer) => {
+  const handleButtonClick = (index, answer) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
       [inputFieldNames[currentIndex]]: answer
     }));
+    setClickedIndex(index);
   };
 
   // 각 질문마다 다음 버튼을 눌렀을 때 질문 이동
@@ -124,14 +103,14 @@ const Questions = () => {
             {currentIndex === 0 ? (
               <div className="flex flex-col max-w-full gap-4 mt-16">
                 <button
-                  className="border border-stcolor px-32 py-4 rounded-md"
-                  onClick={() => handleButtonClick('응')}
+                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 0 ? 'bg-tbcolor' : ''}`}
+                  onClick={() => handleButtonClick(0, '응')}
                 >
                   응
                 </button>
                 <button
-                  className=" border border-stcolor px-32 py-4 rounded-md"
-                  onClick={() => handleButtonClick('아니오')}
+                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 1 ? 'bg-tbcolor' : ''}`}
+                  onClick={() => handleButtonClick(1, '아니오')}
                 >
                   그래
                 </button>
@@ -139,22 +118,22 @@ const Questions = () => {
             ) : currentIndex === 2 ? (
               <div className="flex flex-col max-w-full gap-4 mt-16">
                 <button
-                  className="border border-stcolor px-32 py-4 max-w-full rounded-md"
-                  onClick={() => handleButtonClick('Blue')}
+                  className={`border border-stcolor px-32 py-4 max-w-full rounded-md ${clickedIndex === 2 ? 'bg-tbcolor' : ''}`}
+                  onClick={() => handleButtonClick(2, 'Blue')}
                 >
-                  Blue
+                  Blue 🦋
                 </button>
                 <button
-                  className="border border-stcolor px-32 py-4 rounded-md"
-                  onClick={() => handleButtonClick('Green')}
+                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 3 ? 'bg-tbcolor' : ''}`}
+                  onClick={() => handleButtonClick(3, 'Green')}
                 >
-                  Green
+                  Green 🍀
                 </button>
                 <button
-                  className=" border border-stcolor px-32 py-4 rounded-md"
-                  onClick={() => handleButtonClick('Yellow')}
+                  className={` border border-stcolor  px-32 py-4 rounded-md ${clickedIndex === 4 ? 'bg-tbcolor' : ''}`}
+                  onClick={() => handleButtonClick(4, 'Yellow')}
                 >
-                  Yellow
+                  Yellow 🌼
                 </button>
               </div>
             ) : null}
