@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { apiLoginKakao } from '../../utils/api';
+// import { apiLoginKakao } from '../../utils/api';
 const publicPaths = ['/', '/home', '/naver', '/kakao', '/guest/*'];
 const privatePaths = ['/host/*'];
 
