@@ -1,56 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import backgroundImage from './TreeBackground.png';
-import { useNavigate } from 'react-router-dom';
-import img1 from './img/img1.png';
-import img2 from './img/img2.png';
-import img3 from './img/img3.png';
-import img4 from './img/img4.png';
-import img5 from './img/img5.png';
-import img6 from './img/img6.png';
-import img7 from './img/img7.png';
-import img8 from './img/img8.png';
-import img9 from './img/img9.png';
-import img10 from './img/img10.png';
-import img11 from './img/img11.png';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+
+async function fetchAllMessage(treeId) {
+  try {
+    const response = await axios.get(
+      `http://3.39.232.205:8080/api/message/4ff85ae1cd6e476cb47addce5479c689/all`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('메세지를 불러오는데 실패했습니다:', error);
+    return null;
+  }
+}
 
 function Decoration({ imageUrl }) {
   return (
-    <img src={imageUrl} className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full" alt="Decoration" />
+    <img
+      src={imageUrl}
+      className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full"
+      alt="Decoration"
+    />
   );
 }
 
 function DecorationRow({ images }) {
+  const navigate = useNavigate();
+
+  const handleDecorationClick = (message) => {
+    navigate('message', { state: { message } });
+  };
+
   const decorations = images.map((imageUrl, index) => (
-    <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8 ">
-      <Decoration imageUrl={imageUrl} />
+    <div key={index} className="mx-5 sm:mx-3 md:mx-10 lg:mx-7 xl:mx-8">
+      <Decoration
+        imageUrl={imageUrl.icon}
+        onClick={() => handleDecorationClick(imageUrl.message)}
+      />
     </div>
   ));
 
   return (
-    <div className="flex my-8 sm:my-4 md:my-16 lg:my-6 xl:my-10  justify-center">
+    <div className="flex my-8 sm:my-4 md:my-16 lg:my-6 xl:my-10 justify-center">
       {decorations}
     </div>
   );
 }
+
 function GuestTree() {
+  const { treeId } = useParams();
+  const [decorations, setDecorations] = useState([]);
   const navigate = useNavigate();
-  // decorations 상태는 그대로 유지합니다.
-  const [decorations, setDecorations] = useState([
-    img1,
-    img2,
-    img3,
-    img4,
-    img5,
-    img6,
-    img7,
-    img8,
-    img9,
-    img10,
-    img11
-  ]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const allMessage = await fetchAllMessage(treeId);
+      if (allMessage) {
+        setDecorations(allMessage);
+      }
+    };
+    fetchMessages();
+  }, [treeId]);
 
   const handleButtonClick = () => {
-    navigate('/guest/image');
+    navigate(`/guest/tree/4ff85ae1cd6e476cb47addce5479c689/image`);
   };
 
   // 장식 배열을 원하는 구조에 맞게 분할합니다.
