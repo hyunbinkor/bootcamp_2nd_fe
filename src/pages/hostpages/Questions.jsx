@@ -26,10 +26,12 @@ const Questions = () => {
   // input 답변내역 저장
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [fieldName]: value
-    }));
+    if (/^[a-zA-Z]*$/.test(value)) {
+      setAnswers((prevAnswers) => ({
+        ...prevAnswers,
+        [fieldName]: value
+      }));
+    }
   };
 
   // button 답변내역 저장
@@ -121,19 +123,19 @@ const Questions = () => {
                   className={`border border-stcolor px-32 py-4 max-w-full rounded-md ${clickedIndex === 2 ? 'bg-tbcolor' : ''}`}
                   onClick={() => handleButtonClick(2, 'Blue')}
                 >
-                  Blue 🦋
+                  Blue
                 </button>
                 <button
                   className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 3 ? 'bg-tbcolor' : ''}`}
                   onClick={() => handleButtonClick(3, 'Green')}
                 >
-                  Green 🍀
+                  Green
                 </button>
                 <button
                   className={` border border-stcolor  px-32 py-4 rounded-md ${clickedIndex === 4 ? 'bg-tbcolor' : ''}`}
                   onClick={() => handleButtonClick(4, 'Yellow')}
                 >
-                  Yellow 🌼
+                  Yellow
                 </button>
               </div>
             ) : null}
