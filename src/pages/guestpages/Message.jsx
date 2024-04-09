@@ -17,6 +17,7 @@ function Message() {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   //입력값 경고 생성
   const handleAlertCreate = (message) => {
@@ -27,6 +28,11 @@ function Message() {
   const handleAlertClose = () => {
     setAlertMessage('');
     setShowAlert(false);
+
+    if (isSuccess) {
+      setIsSuccess(false);
+      navigate(`../guest/tree/${treeId}`);
+    }
   };
   // 메세지 남기기 버튼을 눌렀을 때 모달 생성
   const handleModalCreate = () => {
@@ -63,7 +69,7 @@ function Message() {
       );
       handleAlertCreate('트리에 달기 성공!');
       setInput('');
-      navigate(`../guest/tree/${treeId}`);
+      setIsSuccess(true);
     } catch (error) {
       handleAlertCreate(
         '메시지 전송에 실패했습니다. <br /> 다시 시도해주세요 ㅠ.ㅠ'
@@ -86,12 +92,16 @@ function Message() {
                   w-20 h-20 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full"
           />
           <textarea
-            className="shadow-lg px-2 resize-none"
+            className="shadow-lg px-2 
+            resize-none w-[300px] h-[300px]
+            sm:w-[200px] sm:h-[200px]
+            md:w-[450px] md:h-[450px]
+            ml:w-[300px] ml:h-[300px]
+            lg:w-[300px] lg:h-[275px]
+            xl:w-[350px] xl:h-[350px]"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             style={{
-              width: '298px',
-              height: '403px',
               overflowY: 'auto',
               lineHeight: '31px',
               backgroundImage: `repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px)`,
@@ -110,7 +120,7 @@ function Message() {
 
           {showModal && (
             <Modal
-              message="작성하신 내용은 수정이 어려워요. <br/> 신중하게 작성해 주세요!"
+              message="작성하신 내용은 수정이 어려워요.  신중하게 작성해 주세요!"
               onClose={handleModalClose}
               onComplete={handleModalComplete}
             />
