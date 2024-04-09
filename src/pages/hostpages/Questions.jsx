@@ -1,12 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
+import axios from 'axios';
 
 const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
 
 const Questions = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 사용자의 로그인 상태
-  const [hasTree, setHasTree] = useState(false); // 트리 보유 여부
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
   const [answers, setAnswers] = useState({
     ok: '',
