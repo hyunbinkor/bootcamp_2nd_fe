@@ -25,8 +25,15 @@ const Questions = () => {
   ];
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  // input 답변내역 저장
   const handleInputChange = (e, fieldName) => {
+    const { value } = e.target;
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [fieldName]: value
+    }));
+  };
+  // input 답변내역 저장
+  const handleEngInputChange = (e, fieldName) => {
     const { value } = e.target;
     if (/^[a-zA-Z]*$/.test(value)) {
       setAnswers((prevAnswers) => ({
@@ -139,7 +146,9 @@ const Questions = () => {
         <input
           type="text"
           value={answers[inputFieldNames[currentIndex]]}
-          onChange={(e) => handleInputChange(e, inputFieldNames[currentIndex])}
+          onChange={(e) =>
+            handleEngInputChange(e, inputFieldNames[currentIndex])
+          }
           className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
         />
       )
