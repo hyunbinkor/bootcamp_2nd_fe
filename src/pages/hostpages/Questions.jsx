@@ -69,7 +69,7 @@ const Questions = () => {
 
   // 모달창에서 완료 버튼을 눌렀을때 백으로 답변 내역을 보내고, 모달 해제, tree 페이지로 이동
   const handleModalComplete = () => {
-    // axios.post('/api/answers', answers)  //api 요청시 주석해제
+    // axios.post('/api/question', answers)  //api 요청시 주석해제
     //   .then((response) => {
     console.log('Answers:', answers);
     setShowModal(false);
