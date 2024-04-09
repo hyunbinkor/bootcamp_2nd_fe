@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-const publicPaths = ["/", "/home", "/naver", "/kakao"];
-const privatePaths = [];
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+// import { apiLoginKakao } from '../../utils/api';
+import { ROUTE_PATHS } from '../../utils/consts';
 
-const useAuth = () => {
+const useAuth = async () => {
   const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const getAuthStatus = () => {
+  const getAuthStatus = async () => {
     setIsLoading(true);
-    // auth api call [async/await]
-    const authResult = true;
+    const authResult = await apiLoginKakao();
     setIsLoading(false);
     setIsAuth(authResult);
   };
 
   useEffect(() => {
-    if (privatePaths.includes(location.pathname)) {
+    if (ROUTE_PATHS.PRIVATE.includes(location.pathname)) {
       getAuthStatus();
     }
   }, [location.pathname]);
   return {
     isAuth,
-    isLoading,
+    isLoading
   };
 };
 

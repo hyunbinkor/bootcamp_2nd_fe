@@ -79,7 +79,9 @@ const Questions = () => {
   const handleModalComplete = () => {
     console.log('Answers:', answers);
     axios
-      .post('http://3.39.232.205:8080/api/tree/add', answers)
+      .post(`/api/tree/add`, answers, {
+        withCredentials: true
+      })
       .then((response) => {
         console.log('Answers:', answers);
         setShowModal(false);
