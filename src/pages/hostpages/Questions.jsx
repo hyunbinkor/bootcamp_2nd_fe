@@ -7,12 +7,7 @@ const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
 
 const Questions = () => {
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
-  const [answers, setAnswers] = useState({
-    ok: '',
-    nickName: '',
-    color: '',
-    url: ''
-  });
+  const [answers, setAnswers] = useState(['', '', '', '']);
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -24,30 +19,30 @@ const Questions = () => {
   ];
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  const handleInputChange = (e, fieldName) => {
+  const handleInputChange = (e, index) => {
+    // 변경된 부분
     const { value } = e.target;
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [fieldName]: value
-    }));
+    const newAnswers = [...answers];
+    newAnswers[index] = value;
+    setAnswers(newAnswers);
   };
   // input 답변내역 저장
-  const handleEngInputChange = (e, fieldName) => {
+  const handleEngInputChange = (e, index) => {
+    // 변경된 부분
     const { value } = e.target;
     if (/^[a-zA-Z]*$/.test(value)) {
-      setAnswers((prevAnswers) => ({
-        ...prevAnswers,
-        [fieldName]: value
-      }));
+      const newAnswers = [...answers];
+      newAnswers[index] = value;
+      setAnswers(newAnswers);
     }
   };
 
   // button 답변내역 저장
   const handleButtonClick = (index, answer) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [inputFieldNames[currentIndex]]: answer
-    }));
+    // 변경된 부분
+    const newAnswers = [...answers];
+    newAnswers[currentIndex] = answer;
+    setAnswers(newAnswers);
     setClickedIndex(index);
   };
 
@@ -77,15 +72,15 @@ const Questions = () => {
 
   // 모달창에서 완료 버튼을 눌렀을때 백으로 답변 내역을 보내고, 모달 해제, tree 페이지로 이동
   const handleModalComplete = () => {
-    // axios.post('/api/question', answers)  //api 요청시 주석해제
-    //   .then((response) => {
-    console.log('Answers:', answers);
-    setShowModal(false);
-    navigate('/host/tree/{:id}');
-    // })
-    // .catch((error) => {
-    //   console.error('Error posting answers:', error);
-    // });
+    axios
+      .post('http://3.39.232.205:8080/api/tree/add', answers)
+      .then((response) => {
+        setShowModal(false);
+        navigate('/host/tree/{:id}');
+      })
+      .catch((error) => {
+        console.error('Error posting answers:', error);
+      });
   };
 
   // 각 단계마다 답변이 입력되었는지 확인
@@ -114,8 +109,9 @@ const Questions = () => {
       1: (
         <input
           type="text"
-          value={answers[inputFieldNames[currentIndex]]}
-          onChange={(e) => handleInputChange(e, inputFieldNames[currentIndex])}
+          value={answers[currentIndex]}
+          onChange={(e) => handleInputChange(e, currentIndex)}
+          name={inputFieldNames[currentIndex]}
           className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
         />
       ),
@@ -144,10 +140,9 @@ const Questions = () => {
       3: (
         <input
           type="text"
-          value={answers[inputFieldNames[currentIndex]]}
-          onChange={(e) =>
-            handleEngInputChange(e, inputFieldNames[currentIndex])
-          }
+          value={answers[currentIndex]}
+          onChange={(e) => handleEngInputChange(e, currentIndex)}
+          name={inputFieldNames[currentIndex]}
           className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
         />
       )
