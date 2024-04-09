@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
+
+const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
 
 const Questions = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 사용자의 로그인 상태
@@ -12,7 +14,7 @@ const Questions = () => {
     color: '',
     url: ''
   });
-  const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const questions = [
@@ -85,62 +87,79 @@ const Questions = () => {
     return answers[inputFieldNames[index]] !== '';
   };
 
+  const renderAnswerInputFromCurrentIndex = useCallback(() => {
+    const mapIndexToElement = {
+      0: (
+        <div className="flex flex-col max-w-full gap-4 mt-16">
+          <button
+            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 0 ? 'bg-tbcolor' : ''}`}
+            onClick={() => handleButtonClick(0, '응')}
+          >
+            응
+          </button>
+          <button
+            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 1 ? 'bg-tbcolor' : ''}`}
+            onClick={() => handleButtonClick(1, '아니오')}
+          >
+            그래
+          </button>
+        </div>
+      ),
+      1: (
+        <input
+          type="text"
+          value={answers[inputFieldNames[currentIndex]]}
+          onChange={(e) => handleInputChange(e, inputFieldNames[currentIndex])}
+          className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
+        />
+      ),
+      2: (
+        <div className="flex flex-col max-w-full gap-4 mt-16">
+          <button
+            className={`border border-stcolor px-32 py-4 max-w-full rounded-md ${clickedIndex === 2 ? 'bg-tbcolor' : ''}`}
+            onClick={() => handleButtonClick(2, 'Blue')}
+          >
+            Blue
+          </button>
+          <button
+            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 3 ? 'bg-tbcolor' : ''}`}
+            onClick={() => handleButtonClick(3, 'Green')}
+          >
+            Green
+          </button>
+          <button
+            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 4 ? 'bg-tbcolor' : ''}`}
+            onClick={() => handleButtonClick(4, 'Yellow')}
+          >
+            Yellow
+          </button>
+        </div>
+      ),
+      3: (
+        <input
+          type="text"
+          value={answers[inputFieldNames[currentIndex]]}
+          onChange={(e) => handleInputChange(e, inputFieldNames[currentIndex])}
+          className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
+        />
+      )
+    };
+    return mapIndexToElement[currentIndex];
+  }, [
+    currentIndex,
+    answers,
+    clickedIndex,
+    handleButtonClick,
+    handleInputChange
+  ]);
+
   return (
     <div className="min-h-screen px-5 pt-20 py-px_15 relative text-neutral-content font-custom">
       <div className="py-px_120 pl-5  text-xl font-bold">
         {questions[currentIndex]}
       </div>
       <div className="flex justify-center">
-        {currentIndex === 1 || currentIndex === 3 ? (
-          <input
-            type="text"
-            value={answers[inputFieldNames[currentIndex]]}
-            onChange={(e) =>
-              handleInputChange(e, inputFieldNames[currentIndex])
-            }
-            className="border-b  text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
-          />
-        ) : (
-          <div className="flex justify-center text-xl font-bold">
-            {currentIndex === 0 ? (
-              <div className="flex flex-col max-w-full gap-4 mt-16">
-                <button
-                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 0 ? 'bg-tbcolor' : ''}`}
-                  onClick={() => handleButtonClick(0, '응')}
-                >
-                  응
-                </button>
-                <button
-                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 1 ? 'bg-tbcolor' : ''}`}
-                  onClick={() => handleButtonClick(1, '아니오')}
-                >
-                  그래
-                </button>
-              </div>
-            ) : currentIndex === 2 ? (
-              <div className="flex flex-col max-w-full gap-4 mt-16">
-                <button
-                  className={`border border-stcolor px-32 py-4 max-w-full rounded-md ${clickedIndex === 2 ? 'bg-tbcolor' : ''}`}
-                  onClick={() => handleButtonClick(2, 'Blue')}
-                >
-                  Blue
-                </button>
-                <button
-                  className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 3 ? 'bg-tbcolor' : ''}`}
-                  onClick={() => handleButtonClick(3, 'Green')}
-                >
-                  Green
-                </button>
-                <button
-                  className={` border border-stcolor  px-32 py-4 rounded-md ${clickedIndex === 4 ? 'bg-tbcolor' : ''}`}
-                  onClick={() => handleButtonClick(4, 'Yellow')}
-                >
-                  Yellow
-                </button>
-              </div>
-            ) : null}
-          </div>
-        )}
+        {renderAnswerInputFromCurrentIndex()}
       </div>
 
       <div className="text-black">
@@ -157,11 +176,7 @@ const Questions = () => {
         )}
         {currentIndex === questions.length - 1 && (
           <div
-            className={`absolute bottom-12 right-0 mt-3 px-8 line-height-8 cursor-pointer ${
-              isAnswerEntered(currentIndex)
-                ? ''
-                : 'pointer-events-none text-gray-400'
-            }`}
+            className={`absolute bottom-12 right-0 mt-3 px-8 line-height-8 cursor-pointer ${isAnswerEntered(currentIndex) ? '' : 'pointer-events-none text-gray-400'}`}
             onClick={
               isAnswerEntered(currentIndex) ? handleCompleteClick : undefined
             }
@@ -171,11 +186,7 @@ const Questions = () => {
         )}
         {currentIndex !== questions.length - 1 && (
           <div
-            className={`absolute bottom-12 right-0 mt-3 px-8 line-height-8 cursor-pointer ${
-              isAnswerEntered(currentIndex)
-                ? ''
-                : 'pointer-events-none text-gray-400'
-            }`}
+            className={`absolute bottom-12 right-0 mt-3 px-8 line-height-8 cursor-pointer ${isAnswerEntered(currentIndex) ? '' : 'pointer-events-none text-gray-400'}`}
             onClick={
               isAnswerEntered(currentIndex) ? handleNextClick : undefined
             }
