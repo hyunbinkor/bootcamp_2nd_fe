@@ -5,11 +5,21 @@ import axios from 'axios';
 import DogCanvas from './DogCanvas';
 import DuckCanvas from './DuckCanvas';
 
-const inputFieldNames = ['ok', 'nickName', 'color', 'url'];
+const inputFieldNames = ['ok', 'nickName', 'color', 'treeName'];
 
 const Questions = () => {
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
+<<<<<<< HEAD
   const [answers, setAnswers] = useState(['', '', '', '']);
+=======
+  const [answers, setAnswers] = useState({
+    ok: '',
+    nickName: '',
+    color: '',
+    treeName: ''
+  });
+
+>>>>>>> develop
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const questions = [
@@ -21,30 +31,30 @@ const Questions = () => {
   const [currentCanvas, setCurrentCanvas] = useState('DogCanvas');
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  const handleInputChange = (e, index) => {
-    // 변경된 부분
+  const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [fieldName]: value
+    }));
   };
   // input 답변내역 저장
-  const handleEngInputChange = (e, index) => {
-    // 변경된 부분
+  const handleEngInputChange = (e, fieldName) => {
     const { value } = e.target;
     if (/^[a-zA-Z]*$/.test(value)) {
-      const newAnswers = [...answers];
-      newAnswers[index] = value;
-      setAnswers(newAnswers);
+      setAnswers((prevAnswers) => ({
+        ...prevAnswers,
+        [fieldName]: value
+      }));
     }
   };
 
   // button 답변내역 저장
   const handleButtonClick = (index, answer) => {
-    // 변경된 부분
-    const newAnswers = [...answers];
-    newAnswers[currentIndex] = answer;
-    setAnswers(newAnswers);
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [inputFieldNames[currentIndex]]: answer
+    }));
     setClickedIndex(index);
   };
 
@@ -74,9 +84,13 @@ const Questions = () => {
 
   // 모달창에서 완료 버튼을 눌렀을때 백으로 답변 내역을 보내고, 모달 해제, tree 페이지로 이동
   const handleModalComplete = () => {
+    console.log('Answers:', answers);
     axios
-      .post('http://3.39.232.205:8080/api/tree/add', answers)
+      .post(`/api/tree/add`, answers, {
+        withCredentials: true
+      })
       .then((response) => {
+        console.log('Answers:', answers);
         setShowModal(false);
         navigate('/host/tree/{:id}');
       })
@@ -102,7 +116,7 @@ const Questions = () => {
           </button>
           <button
             className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 1 ? 'bg-tbcolor' : ''}`}
-            onClick={() => handleButtonClick(1, '아니오')}
+            onClick={() => handleButtonClick(1, '그래')}
           >
             그래
           </button>
@@ -111,9 +125,8 @@ const Questions = () => {
       1: (
         <input
           type="text"
-          value={answers[currentIndex]}
-          onChange={(e) => handleInputChange(e, currentIndex)}
-          name={inputFieldNames[currentIndex]}
+          value={answers[inputFieldNames[currentIndex]]}
+          onChange={(e) => handleInputChange(e, inputFieldNames[currentIndex])}
           className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
         />
       ),
@@ -137,9 +150,11 @@ const Questions = () => {
       3: (
         <input
           type="text"
-          value={answers[currentIndex]}
-          onChange={(e) => handleEngInputChange(e, currentIndex)}
-          name={inputFieldNames[currentIndex]}
+          placeholder="영문으로 입력해 주세요."
+          value={answers[inputFieldNames[currentIndex]]}
+          onChange={(e) =>
+            handleEngInputChange(e, inputFieldNames[currentIndex])
+          }
           className="border-b text-black bg-bgcolor px-3 py-2 mt-40 align-center text-center outline-none"
         />
       )
