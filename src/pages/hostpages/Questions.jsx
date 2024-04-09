@@ -187,7 +187,7 @@ const Questions = () => {
 
       {showModal && (
         <Modal
-          message="작성하신 내용은 수정이 어려워요. <br/> 신중하게 작성해 주세요!"
+          message="작성하신 내용은 수정이 어려워요. 신중하게 작성해 주세요!"
           onClose={handleModalClose}
           onComplete={handleModalComplete}
         />
