@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { path: '/kakao', element: <Kakao /> },
       { path: '/naver', element: <Naver /> },
       { path: '/host/question', element: <Questions /> },
-      { path: '/host/tree/', element: <Kakao /> },
+      { path: '/host/tree/:id', element: <HostTree /> },
       { path: '/guest/tree/:id', element: <GuestTree /> }
     ]
   }
