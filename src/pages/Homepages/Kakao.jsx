@@ -5,17 +5,15 @@ import { Route, useLocation, useNavigate } from 'react-router-dom';
 const Kakao = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [treeid, setTreeid] = useState(null);
-  useEffect(() => {
-    async function hasTree() {
-      const params = await new URLSearchParams(location.search);
-      const response = await axios.get(`/api/oauth/kakao?${params}`);
-      setTreeid(response.data.treeid);
-    }
-    hasTree();
-    if (treeid) navigate(`/host/tree/${treeid}`);
+  const checkHasTree = async () => {
+    const params = new URLSearchParams(location.search);
+    const response = await axios.get(`/api/oauth/kakao?${params}`);
+    const resultTreeId = response.data.TreeId;
+    if (resultTreeId) return navigate(`/host/tree/${resultTreeId}`);
     navigate('/host/question');
-    return () => {};
+  };
+  useEffect(() => {
+    checkHasTree();
   }, []);
   return <div>카카오</div>;
 };
