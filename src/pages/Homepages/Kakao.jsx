@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Route, useLocation, useNavigate } from 'react-router-dom';
+import Load from '../Homepages/Loading';
 
 const Kakao = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const Kakao = () => {
   useEffect(() => {
     checkHasTree();
   }, []);
-  return <div>카카오</div>;
+  return <Load />;
 };
 
 export default Kakao;
