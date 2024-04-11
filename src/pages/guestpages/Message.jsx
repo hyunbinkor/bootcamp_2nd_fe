@@ -4,6 +4,8 @@ import axios from 'axios';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
 import BackArrow from '../../components/atom/BackArrow';
+import ImageMesh from './ImageMesh';
+import { Canvas } from '@react-three/fiber';
 
 function Message() {
   const [input, setInput] = useState('');
@@ -85,12 +87,12 @@ function Message() {
       </h1>
       <div className="relative flex-grow">
         <div className="flex flex-col items-center justify-center">
-          <img
-            src={image}
-            alt="아이콘"
-            className="
-                  w-20 h-20 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full"
-          />
+          <Canvas style={{ width: '100%', height: '100%' }}>
+            <ambientLight intensity={1} />
+            <directionalLight />
+            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+            <ImageMesh modelUrl={image} />
+          </Canvas>
           <textarea
             className="shadow-lg px-2 
             resize-none w-[300px] h-[300px]
