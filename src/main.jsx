@@ -9,12 +9,13 @@ import GuestTree from './pages/guestpages/Tree.jsx';
 import Error from './pages/Homepages/Error.jsx';
 const Kakao = React.lazy(() => import('./pages/Homepages/Kakao.jsx'));
 const Naver = React.lazy(() => import('./pages/Homepages/Naver.jsx'));
-const HostTree = React.lazy(() => import('./pages/hostpages/Tree.jsx'));
+const HostIsland = React.lazy(() => import('./pages/hostpages/Island.jsx'));
 const Questions = React.lazy(() => import('./pages/hostpages/Questions.jsx'));
 import SelectImage from './pages/guestpages/SelectImage.jsx';
 import Message from './pages/guestpages/Message.jsx';
 import HostMessage from './pages/hostpages/Message.jsx';
 import Load from './pages/Homepages/Loading.jsx';
+import GuestIsland from './pages/guestpages/Island.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,9 +26,9 @@ const router = createBrowserRouter([
       { path: '/kakao', element: <Kakao /> },
       { path: '/naver', element: <Naver /> },
       { path: '/load', element: <Load /> },
-      { path: '/host/tree/:id', element: <HostTree /> },
+      { path: '/host/tree/:id', element: <HostIsland /> },
       { path: '/host/tree/:id/message', element: <HostMessage /> },
-      { path: '/guest/tree/:id', element: <GuestTree /> },
+      { path: '/guest/tree/:id', element: <GuestIsland />},
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
       { path: '/host/question', element: <Questions /> }
