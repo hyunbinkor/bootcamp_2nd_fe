@@ -39,6 +39,7 @@ function GridBox(props) {
 }
 
 function Island() {
+  const baseUrl = 'localhost:4000';
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -50,12 +51,10 @@ function Island() {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider"
-      >
+      <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
         민서님의 Mailland
       </div>
-      <Canvas camera={{ position: [0, 3, 6.5] }}>
+      <Canvas camera={{ position: [0, 5, 7] }}>
         <ambientLight intensity={1} />
 
         {/* 주요 조명 */}
@@ -80,10 +79,10 @@ function Island() {
         <GridBox position={[0, 0, 0]} />
       </Canvas>
       <div
-        className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 bg-pink-200 rounded-full text-xl font-bold cursor-pointer uppercase tracking-wider"
-        onClick={handleCopyClipBoard}
+        className="fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider text-center"
+        onClick={() => handleCopyClipBoard(`${baseUrl}${location.pathname}`)}
       >
-        내 트리 공유하기
+        내 메일랜드 공유하기
       </div>
     </>
   );

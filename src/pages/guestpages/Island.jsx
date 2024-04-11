@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { useNavigate } from 'react-router-dom';
-import * as THREE from 'three';
 
 function GridBox(props) {
   const mesh = useRef();
@@ -19,10 +18,7 @@ function GridBox(props) {
 
   return (
     <>
-      <OrbitControls
-        autoRotate 
-        autoRotateSpeed={1}
-      />
+      <OrbitControls autoRotate autoRotateSpeed={1} />
       {/* 초록 상단 */}
       <mesh {...props} ref={mesh} onClick={onClick} scale={[1, 0.1, 1]}>
         <boxGeometry args={[5, 3, 5]} />
@@ -52,13 +48,10 @@ function Island() {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider"
-
-      >
+      <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
         민서님의 Mailland
       </div>
-      <Canvas camera={{ position: [0, 3, 6.5] }}>
+      <Canvas camera={{ position: [0, 5, 7] }}>
         <ambientLight intensity={1} />
 
         {/* 주요 조명 */}
@@ -83,7 +76,7 @@ function Island() {
         <GridBox position={[0, 0, 0]} />
       </Canvas>
       <div
-        className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 bg-pink-200 rounded-full text-xl font-bold cursor-pointer uppercase tracking-wider"
+        className="fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider text-center"
         onClick={handleButtonClick}
       >
         새 글 쓰기
