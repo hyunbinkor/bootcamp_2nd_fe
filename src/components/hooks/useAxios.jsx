@@ -1,47 +1,58 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
+import axiosInstance from '../../utils/axiosInstance';
 
 const useAxios = (configParams) => {
   axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-  const [res, setRes] = useState('');
-  const [err, setErr] = useState('');
+  const [response, setResponse] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    fetchDataUsingAxios(configParams);
-  }, []);
+  const [trigger, setTrigger] = useState(0);
+  const controllerRef = useRef(new AbortController());
+
+  const refetch = () => {
+    setResponse([...response]);
+    setError(error);
+    setLoading(true);
+    setTrigger(Date.now());
+  };
+
   const fetchDataUsingAxios = async () => {
-    await axios
-      .request(configParams)
-      .then((res) => setRes(res))
-      .catch((err) => setErr(err))
+    await axiosInstance
+      .request({
+        ...configParams,
+        signal: controllerRef.current.signal
+      })
+      .then((response) => setRes(response?.data?.data))
+      .catch((error) => setErr(error))
       .finally(() => setLoading(false));
   };
-  return [res, err, loading];
+
+  useEffect(() => {
+    fetchDataUsingAxios(configParams);
+  }, [trigger]);
+
+  return { response, error, loading, setResponse, refetch };
 };
+
 export default useAxios;
 
 /**
  * @description 아래 코드로 사용하면 됨
-import { useEffect, useState } from "react/cjs/react.development";
-import useAxios from "./useAxios";
 const YourComponent = () => {
      const [data, setData] = useState(null);
-     const [todo, isError, isLoading] = useAxios({
+     const { response, error, loading, setResponse, refetch } = useAxios({
            url: '/todos/2',
            method: 'get',
            body: {...},
            headers: {...}
      });
-     use Effect(() => {
-        if(todo && todo.data) setData(todo.data)
-     }, [todo]);
      return (
-       <> {isLoading ? (
+       <> {loading ? (
             <p>isLoading...</p>
        ) : (
            <div>
-                {isError && <p>{isError.message}</p>}
-                {data && <p>{data.title}</p>}</div>
+                {error && <p>{error.message}</p>}
+                {response && <p>{response}</p>}</div>
            </div>
         )} </>
       )

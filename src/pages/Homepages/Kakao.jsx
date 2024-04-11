@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Route, useLocation, useNavigate } from 'react-router-dom';
+import useAxios from '../../components/hooks/useAxios';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Load from '../Homepages/Loading';
 
 const Kakao = () => {
@@ -8,8 +8,11 @@ const Kakao = () => {
   const navigate = useNavigate();
   const checkHasTree = async () => {
     const params = new URLSearchParams(location.search);
-    const response = await axios.get(`/api/oauth/kakao?${params}`);
-    const resultTreeId = response.data.TreeId;
+    const { response, error, loading, setResponse, refetch } = useAxios({
+      url: `/api/oauth/kakao?${params}`,
+      method: 'get'
+    });
+    const resultTreeId = response.TreeId;
     if (resultTreeId) return navigate(`/host/tree/${resultTreeId}`);
     navigate('/host/question');
   };
