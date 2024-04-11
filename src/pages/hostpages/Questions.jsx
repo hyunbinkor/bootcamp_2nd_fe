@@ -4,22 +4,19 @@ import Modal from '../../components/atom/Modal';
 import axios from 'axios';
 import DogCanvas from './DogCanvas';
 import DuckCanvas from './DuckCanvas';
+import BearCanvas from './BearCanvas';
+import AnimalCanvas from './AnimalCanvas';
 
-const inputFieldNames = ['ok', 'nickName', 'color', 'treeName'];
+const inputFieldNames = ['ok', 'nickName', 'animal', 'treeName'];
 
 const Questions = () => {
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
-<<<<<<< HEAD
-  const [answers, setAnswers] = useState(['', '', '', '']);
-=======
   const [answers, setAnswers] = useState({
     ok: '',
     nickName: '',
-    color: '',
+    animal: '',
     treeName: ''
   });
-
->>>>>>> develop
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const questions = [
@@ -134,19 +131,42 @@ const Questions = () => {
         <div>
           <div
             className="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
-            onClick={() => setCurrentCanvas('DogCanvas')}
+            onClick={() => {
+              if (currentCanvas === 'DogCanvas') {
+                setCurrentCanvas('BearCanvas');
+              } else if (currentCanvas === 'BearCanvas') {
+                setCurrentCanvas('DuckCanvas');
+              } else {
+                setCurrentCanvas('DogCanvas');
+              }
+            }}
           >
             &lt;
           </div>
           <div
             className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
-            onClick={() => setCurrentCanvas('DuckCanvas')}
+            onClick={() => {
+              if (currentCanvas === 'DogCanvas') {
+                setCurrentCanvas('DuckCanvas');
+              } else if (currentCanvas === 'DuckCanvas') {
+                setCurrentCanvas('BearCanvas');
+              } else {
+                setCurrentCanvas('DogCanvas');
+              }
+            }}
           >
             &gt;
           </div>
-          {currentCanvas === 'DogCanvas' ? <DogCanvas /> : <DuckCanvas />}
+          {currentCanvas === 'DogCanvas' ? (
+            <DogCanvas handleButtonClick={handleButtonClick} />
+          ) : currentCanvas === 'DuckCanvas' ? (
+            <DuckCanvas handleButtonClick={handleButtonClick} />
+          ) : (
+            <BearCanvas handleButtonClick={handleButtonClick} />
+          )}
         </div>
       ),
+
       3: (
         <input
           type="text"

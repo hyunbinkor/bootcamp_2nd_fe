@@ -3,45 +3,45 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from '@react-three/drei';
 
-function DuckCanvas(props) {
+function BearCanvas(props) {
   const handleButtonClick = () => {
-    props.handleButtonClick(1, 'Duck');
+    props.handleButtonClick(2, 'Bear');
   };
 
   return (
-    <button>
-      <Canvas className="mt-32" style={{ width: '400px', height: '500px' }}>
-        {/* 캔버스 크기 조절 */}
-        <ambientLight />
-        <directionalLight />
-        <Suspense fallback={null}>
-          {/* 카메라 컨트롤 추가 */}
+    <div>
+      <button className="flex">
+        <p className="text-ttcolor">곰</p>
+        <Canvas className="mt-40" style={{ width: '400px', height: '400px' }}>
+          {/* 캔버스 크기 조절 */}
+          <ambientLight />
+          <directionalLight />
           <OrbitControls />
-          {/* 모델 */}
-          <DuckMesh
-            position={[0, 0, -10]}
-            handleButtonClick={handleButtonClick}
-          />
-        </Suspense>
-      </Canvas>
-    </button>
+          <Suspense fallback={null}>
+            {/* 첫 번째 모델 */}
+            <BearMesh
+              position={[0, 0, -10]}
+              handleButtonClick={handleButtonClick}
+            />
+          </Suspense>
+        </Canvas>
+      </button>
+    </div>
   );
 }
 
-function DuckMesh(props) {
+function BearMesh(props) {
+  const meshRef = useRef();
   const [hovered, setHover] = useState(false);
   const gltf = useLoader(
     GLTFLoader,
-    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf'
+    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/bear/model.gltf'
   );
 
-  const meshRef = useRef();
-
   const handleButtonClick = () => {
-    props.handleButtonClick('duck');
+    props.handleButtonClick('bear');
   };
 
-  // 모델 회전
   useFrame(() => {
     meshRef.current.rotation.y += 0.05;
   });
@@ -59,4 +59,4 @@ function DuckMesh(props) {
   );
 }
 
-export default DuckCanvas;
+export default BearCanvas;
