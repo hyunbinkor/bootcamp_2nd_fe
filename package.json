@@ -10,14 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@react-three/drei": "^9.105.2",
-    "@react-three/fiber": "^8.16.1",
-=======
     "@react-three/drei": "^9.105.3",
     "@react-three/fiber": "^8.16.1",
     "@types/three": "^0.163.0",
->>>>>>> 6ac75cb2a9c0e61ef84c7352ce888dd4e34d755e
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "postcss": "^8.4.38",
