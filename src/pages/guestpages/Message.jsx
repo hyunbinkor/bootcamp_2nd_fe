@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import axios from 'axios';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
 import BackArrow from '../../components/atom/BackArrow';
-import ImageMesh from './ImageMesh';
+import { ImageMesh } from './ImageMesh';
 import { Canvas } from '@react-three/fiber';
 
 function Message() {
@@ -13,6 +12,7 @@ function Message() {
   const navigate = useNavigate();
   const location = useLocation();
   const { image } = location.state;
+
   const params = useParams();
   const treeId = params.id;
 
@@ -30,11 +30,6 @@ function Message() {
   const handleAlertClose = () => {
     setAlertMessage('');
     setShowAlert(false);
-
-    if (isSuccess) {
-      setIsSuccess(false);
-      navigate(`../guest/tree/${treeId}`);
-    }
   };
   // 메세지 남기기 버튼을 눌렀을 때 모달 생성
   const handleModalCreate = () => {
@@ -46,9 +41,8 @@ function Message() {
   };
   // 모달창에서 완료 버튼을 눌렀을 때 모달 해제, post
   const handleModalComplete = () => {
-    //post 통신
-    addNote();
     setShowModal(false);
+    addNote();
   };
 
   //메세지 검사
@@ -61,22 +55,8 @@ function Message() {
   };
 
   const addNote = async () => {
-    try {
-      const response = await axios.post(
-        `http://3.39.232.205:8080/api/message/${treeId}/write`,
-        {
-          message: input,
-          icon: image
-        }
-      );
-      handleAlertCreate('트리에 달기 성공!');
-      setInput('');
-      setIsSuccess(true);
-    } catch (error) {
-      handleAlertCreate(
-        '메시지 전송에 실패했습니다. <br /> 다시 시도해주세요 ㅠ.ㅠ'
-      );
-    }
+    setInput('');
+    navigate(`../guest/tree/${treeId}/temp`, { state: { image, input } });
   };
 
   return (
@@ -117,7 +97,7 @@ function Message() {
             className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-200"
             onClick={() => handleInputCheck()}
           >
-            메시지 남기기
+            메세지 남기러 가기
           </div>
 
           {showModal && (

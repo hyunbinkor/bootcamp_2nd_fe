@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import BackArrow from '../../components/atom/BackArrow';
 import axios from 'axios';
-import ImageMesh from './ImageMesh';
+import { ImageMesh } from './ImageMesh';
 
 const IMAGE = [
   'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/dog/model.gltf',
