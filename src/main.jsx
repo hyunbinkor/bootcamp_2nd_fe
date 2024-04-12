@@ -22,16 +22,16 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { path: '/temp', element: <Temp /> },
       { path: '/home', element: <Home /> },
       { path: '/kakao', element: <Kakao /> },
       { path: '/naver', element: <Naver /> },
       { path: '/load', element: <Load /> },
       { path: '/host/tree/:id', element: <HostIsland /> },
       { path: '/host/tree/:id/message', element: <HostMessage /> },
-      { path: '/guest/tree/:id', element: <GuestIsland />},
+      { path: '/guest/tree/:id', element: <GuestIsland /> },
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
+      { path: '/guest/tree/:id/temp', element: <Temp /> },
       { path: '/host/question', element: <Questions /> }
     ]
   }
