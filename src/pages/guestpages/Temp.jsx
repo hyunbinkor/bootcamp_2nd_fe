@@ -15,24 +15,28 @@ function GridBox(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
+  const [curPosition, setCurPosition] = useState([]);
+  const [postSuccess, setPostSuccess] = useState(false);
 
   //공통 기능으로 뺄 것.
   async function addTemp() {
     try {
       const response = await axios.post(`/api/message/${props.treeId}/write`, {
         message: props.input,
-        icon: props.image
+        icon: props.image,
+        coordinate: { x: curPosition[0], y: curPosition[1], z: curPosition[2] }
       });
-      handleAlertCreate('트리에 달기 성공!');
-      navigate('../guest/tree/:id');
+      setPostSuccess(true);
+      handleAlertCreate(`${props.treeId}님에게 장식품을 전달했어요!`);
     } catch (error) {
       handleAlertCreate('다시 시도해주세요 ㅠ.ㅠ');
     }
   }
 
   // 오브젝트 놓았을 때 모달 생성
-  const handleModalCreate = () => {
+  const handleModalCreate = (e) => {
     setShowModal(true);
+    setCurPosition(Object.values(e.point).map((coord) => Math.round(coord)));
   };
   // 모달창에서 닫기 버튼을 눌렀을 때 모달 해제
   const handleModalClose = () => {
@@ -52,6 +56,11 @@ function GridBox(props) {
   const handleAlertClose = () => {
     setAlertMessage('');
     setShowAlert(false);
+
+    if (postSuccess) {
+      setPostSuccess(false);
+      navigate('../guest/tree/:id');
+    }
   };
 
   const onPointerMove = (e) => {
