@@ -5,24 +5,12 @@ import BackArrow from '../../components/atom/BackArrow';
 import axios from 'axios';
 import { ImageMesh } from './ImageMesh';
 
-const IMAGE = [
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/dog/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/bear/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/cactus/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/plant/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/old-korrigan/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/quiver/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/survivor-male/model.gltf',
-  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/sports-sedan/model.gltf'
-];
-
 async function fetchIcons() {
   try {
     const response = await axios.get('/api/message/icon/all');
     return response.data;
   } catch (error) {
-    console.error('아이콘을 불러오는데 실패했습니다:', error);
+    throw new Error('아이콘을 불러오는데 실패했습니다:', error);
   }
 }
 const IMAGES_PER_PAGE = 9;
@@ -32,17 +20,28 @@ const SelectImage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentImages, setCurrentImages] = useState([]);
   const [totalImages, setTotalImages] = useState(0);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
-    fetchIcons().then((data) => {
-      setTotalImages(IMAGE.length);
-      const newImages = IMAGE.slice(
-        currentPage * IMAGES_PER_PAGE,
-        (currentPage + 1) * IMAGES_PER_PAGE
-      );
-      setCurrentImages(newImages);
-    });
-  }, [currentPage]);
+    const fetchIcons = async () => {
+      try {
+        const response = await axios.get('/api/message/icon/all');
+        setImages(response.data);
+        setTotalImages(response.data.length);
+      } catch (error) {
+        console.error('아이콘을 불러오는데 실패했습니다:', error);
+      }
+    };
+    fetchIcons();
+  }, []);
+
+  useEffect(() => {
+    const newImages = images.slice(
+      currentPage * IMAGES_PER_PAGE,
+      (currentPage + 1) * IMAGES_PER_PAGE
+    );
+    setCurrentImages(newImages);
+  }, [currentPage, images]);
 
   const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
 
@@ -72,18 +71,18 @@ const SelectImage = () => {
           </h1>
           <div
             style={{ width: '298px', height: '403px' }}
-            className="grid grid-cols-3 gap-3
+            className="grid grid-cols-3 gap-3 h-auto
   sm:gap-3
   md:gap-4
   lg:gap-4
   xl:gap-4"
           >
-            {currentImages.map((image, idx) => (
+            {currentImages.map((image) => (
               <div
-                key={idx}
-                className="cursor-pointer flex justify-center items-center"
-                onClick={() => handleImageClick(image)}
-                style={{ width: '100%', height: '100%', position: 'relative' }}
+                key={image.url}
+                className="cursor-pointer flex justify-center items-center h-32"
+                onClick={() => handleImageClick(image.url)}
+                style={{ width: '100%', position: 'relative' }}
               >
                 <Canvas style={{ width: '100%', height: '100%' }}>
                   <ambientLight intensity={1} />
@@ -93,7 +92,7 @@ const SelectImage = () => {
                     angle={0.15}
                     penumbra={1}
                   />
-                  <ImageMesh modelUrl={image} />
+                  <ImageMesh modelUrl={image.url} />
                 </Canvas>
               </div>
             ))}
