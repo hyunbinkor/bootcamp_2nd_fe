@@ -15,6 +15,7 @@ import SelectImage from './pages/guestpages/SelectImage.jsx';
 import Message from './pages/guestpages/Message.jsx';
 import HostMessage from './pages/hostpages/Message.jsx';
 import Load from './pages/Homepages/Loading.jsx';
+import Farm from './pages/hostpages/Farm.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,8 @@ const router = createBrowserRouter([
       { path: '/guest/tree/:id', element: <GuestTree /> },
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
-      { path: '/host/question', element: <Questions /> }
+      { path: '/host/question', element: <Questions /> },
+      { path: '/host/farm', element: <Farm /> }
     ]
   }
 ]);

@@ -1,58 +1,46 @@
-import React, { Suspense, useState, useRef } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { ContactShadows } from '@react-three/drei';
+import DogMesh from './DogMesh';
+import Ground from './Ground';
 
 function DogCanvas(props) {
   const handleButtonClick = () => {
-    props.handleButtonClick(0, 'Dog');
+    props.handleButtonClick(2, 'Dog');
   };
 
   return (
-    <button>
-      <Canvas className="mt-32" style={{ width: '400px', height: '500px' }}>
-        {/* 캔버스 크기 조절 */}
-        <ambientLight />
-        <directionalLight />
-        <OrbitControls />
+    <button className="mt-12" style={{ width: '400px', height: '500px' }}>
+      <div className=" bg-white p-4 rounded-full shadow-md mx-36 ml-36">
+        <p className="text-ttcolor">강아지</p>
+      </div>
+      <div className="bg-white p-3 rounded-full shadow-md mx-48"></div>
+      <div className="bg-white p-2 rounded-full shadow-md mx-48"></div>
+
+      <Canvas shadows style={{ width: '100%', height: '100%' }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[0, 10, 0]} intensity={0.6} castShadow />
         <Suspense fallback={null}>
-          {/* 첫 번째 모델 */}
+          <OrbitControls />
           <DogMesh
-            position={[0, 0, -10]}
+            position={[0, 0, -8]}
             handleButtonClick={handleButtonClick}
+            receiveShadow
+          />
+          <Ground />
+          <ContactShadows
+            rotationX={Math.PI / 2}
+            position={[0, -3.5, -8]}
+            opacity={0.7}
+            width={10}
+            height={10}
+            blur={2}
+            far={4.5}
           />
         </Suspense>
       </Canvas>
     </button>
-  );
-}
-
-function DogMesh(props) {
-  const meshRef = useRef();
-  const [hovered, setHover] = useState(false);
-  const gltf = useLoader(
-    GLTFLoader,
-    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/dog/model.gltf'
-  );
-
-  const handleButtonClick = () => {
-    props.handleButtonClick('Dog');
-  };
-
-  useFrame(() => {
-    meshRef.current.rotation.y += 0.05;
-  });
-
-  return (
-    <primitive
-      object={gltf.scene}
-      position={props.position} // 위치 설정
-      scale={[5, 5, 5]}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
-      onClick={handleButtonClick}
-      ref={meshRef}
-    />
   );
 }
 
