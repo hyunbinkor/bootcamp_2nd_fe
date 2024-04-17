@@ -1,16 +1,22 @@
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from '@react-three/drei';
+import Ground from './Ground';
 
 function DuckCanvas(props) {
   const handleButtonClick = () => {
-    props.handleButtonClick(1, 'Duck');
+    props.handleButtonClick(2, 'Duck');
   };
 
   return (
-    <button>
-      <Canvas className="mt-32" style={{ width: '400px', height: '500px' }}>
+    <button className="mt-12" style={{ width: '400px', height: '500px' }}>
+      <div className=" bg-white p-4 rounded-full shadow-md mx-36 ml-36">
+        <p className="text-ttcolor">오리</p>
+      </div>
+      <div className="bg-white p-3 rounded-full shadow-md mx-48"></div>
+      <div className="bg-white p-2 rounded-full shadow-md mx-48"></div>
+      <Canvas style={{ width: '100%', height: '100%' }}>
         {/* 캔버스 크기 조절 */}
         <ambientLight />
         <directionalLight />
@@ -19,9 +25,10 @@ function DuckCanvas(props) {
           <OrbitControls />
           {/* 모델 */}
           <DuckMesh
-            position={[0, 0, -10]}
+            position={[0, 0, -8]}
             handleButtonClick={handleButtonClick}
           />
+          <Ground position={[0, -3, 0]} />
         </Suspense>
       </Canvas>
     </button>
@@ -29,19 +36,16 @@ function DuckCanvas(props) {
 }
 
 function DuckMesh(props) {
-  const [hovered, setHover] = useState(false);
+  const meshRef = useRef();
   const gltf = useLoader(
     GLTFLoader,
     'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf'
   );
 
-  const meshRef = useRef();
-
   const handleButtonClick = () => {
-    props.handleButtonClick('duck');
+    props.handleButtonClick('Duck');
   };
 
-  // 모델 회전
   useFrame(() => {
     meshRef.current.rotation.y += 0.05;
   });
@@ -51,8 +55,6 @@ function DuckMesh(props) {
       object={gltf.scene}
       position={props.position} // 위치 설정
       scale={[5, 5, 5]}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
       onClick={handleButtonClick}
       ref={meshRef}
     />
