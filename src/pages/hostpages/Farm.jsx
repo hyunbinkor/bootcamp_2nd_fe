@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Canvas } from '@react-three/fiber';
 import DogCanvass from './DogCanvass';
 
 const Farm = () => {

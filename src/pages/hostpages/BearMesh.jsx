@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-function DogMesh({ directionKeys, onPositionChange }) {
+function BearMesh({ directionKeys, onPositionChange }) {
   const meshRef = useRef();
   const gltf = useLoader(
     GLTFLoader,
-    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/dog/model.gltf'
+    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/bear/model.gltf'
   );
 
   const [position, setPosition] = useState([0, 0, 0]);
@@ -71,4 +71,4 @@ function DogMesh({ directionKeys, onPositionChange }) {
   );
 }
 
-export default DogMesh;
+export default BearMesh;
