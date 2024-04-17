@@ -17,8 +17,8 @@ const SelectImage = React.lazy(
 );
 const Message = React.lazy(() => import('./pages/guestpages/Message.jsx'));
 const HostMessage = React.lazy(() => import('./pages/hostpages/Message.jsx'));
-import GuestIsland from './pages/guestpages/Island.jsx';
-import Temp from './pages/guestpages/Temp.jsx';
+const GuestIsland = React.lazy(() => import('./pages/guestpages/Island.jsx'));
+const Temp = React.lazy(() => import('./pages/guestpages/Temp.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -35,8 +35,7 @@ const router = createBrowserRouter([
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
       { path: '/guest/tree/:id/temp', element: <Temp /> },
-      { path: '/host/question', element: <Questions /> },
-      { path: '/host/Farm', element: <Farm /> }
+      { path: '/host/question', element: <Questions /> }
     ]
   }
 ]);
