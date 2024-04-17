@@ -20,7 +20,7 @@ function GridBox({ dogPosition, onDogPositionChange, ...props }) {
         z === dogPosition[2] &&
         y === dogPosition[1]
       ) {
-        console.log('아이템을 열었습니다!'); // To do : 박스 열면 메세지 나오는 로직으로 변경
+        alert('아이템을 열었습니다!'); // To do : 박스 열면 메세지 나오는 로직으로 변경
       }
     } else {
       setObjects([...objects, [x, 0.2, z]]);
