@@ -2,19 +2,7 @@ import React, { useState, useEffect } from 'react';
 import backgroundImage from './TreeBackground.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-
-//모든 메시지 불러오기
-async function fetchAllMessage(treeId) {
-  try {
-    const response = await axios.get(
-      `http://3.39.232.205:8080/api/message/4ff85ae1cd6e476cb47addce5479c689/all`
-    );
-    return response.data;
-  } catch (error) {
-    console.error('메세지를 불러오는데 실패했습니다:', error);
-    return null;
-  }
-}
+import useAxios from '../../components/hooks/useAxios';
 
 function Decoration({ imageUrl, onClick }) {
   return (
@@ -49,32 +37,38 @@ function DecorationRow({ images }) {
     </div>
   );
 }
+
+const handleCopyClipBoard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert('클립보드에 링크가 복사되었어요.');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 function HostTree() {
-  const navigate = useNavigate();
-  const { treeId } = useParams();
+  const { id } = useParams();
+  console.log(id);
   const baseUrl = 'localhost:4000';
   const [decorations, setDecorations] = useState([]);
-
+  const { response } = useAxios({
+    url: `/api/message/${id}/all`,
+    params: { count: 1, size: 11 },
+    shouldInitFetch: true
+  });
   useEffect(() => {
-    const fetchMessages = async () => {
-      const allMessage = await fetchAllMessage(treeId);
-      if (allMessage) {
-        setDecorations(allMessage);
+    if (response) {
+      if (response.error) {
+        setDecorations([]);
+      } else {
+        setDecorations(response);
       }
-    };
-    fetchMessages();
-  }, [treeId]);
-
-  const handleCopyClipBoard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('클립보드에 링크가 복사되었어요.');
-    } catch (err) {
-      console.log(err);
     }
-  };
+  }, [id, response]);
 
   // 장식 배열을 원하는 구조에 맞게 분할합니다.
+  console.log(decorations);
   const rows = [
     decorations.slice(0, 1),
     decorations.slice(1, 4),
@@ -103,15 +97,21 @@ function HostTree() {
             ))}
           </div>
 
-          <div className="flex justify-center">
-            <div
-              className="bottom-0 rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-100"
+          <div className="flex flex-col w-2/3 justify-center">
+            <button
+              className="btn btn-primary rounded-xl my-3"
               onClick={() =>
                 handleCopyClipBoard(`${baseUrl}${location.pathname}`)
               }
             >
               내 트리 공유하기
-            </div>
+            </button>
+            <button
+              className="btn btn-primary rounded-xl"
+              onClick={() => handleDelete}
+            >
+              트리 삭제 및 탈퇴하기
+            </button>
           </div>
         </div>
       </div>

@@ -1,21 +1,33 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Route, useLocation, useNavigate } from 'react-router-dom';
+import useAxios from '../../components/hooks/useAxios';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Load from '../Homepages/Loading';
+import Naver from './Naver';
 
 const Kakao = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const checkHasTree = async () => {
-    const params = new URLSearchParams(location.search);
-    const response = await axios.get(`/api/oauth/kakao?${params}`);
-    const resultTreeId = response.data.TreeId;
-    if (resultTreeId) return navigate(`/host/tree/${resultTreeId}`);
-    navigate('/host/question');
+  const location = useLocation();
+  const { response } = useAxios({
+    url: `/api/oauth/kakao${location.search}`,
+    shouldInitFetch: true
+  });
+
+  // 트리 여부에 따른 분기 처리 함수
+  const navigateTree = (treeId) => {
+    if (treeId === null) {
+      navigate('/host/question');
+    } else {
+      navigate(`/host/tree/${treeId}`);
+    }
   };
+
+  // 응답이 왔을 때 분기 처리 함수 호출
   useEffect(() => {
-    checkHasTree();
-  }, []);
-  return <div>카카오</div>;
+    if (response) {
+      navigateTree(response.treeId);
+    }
+  }, [response]);
+  return <Naver />;
 };
 
 export default Kakao;

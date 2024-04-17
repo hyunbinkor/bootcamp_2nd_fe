@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
-// import axios from 'axios';
+import axios from 'axios';
+import useAxios from '../../components/hooks/useAxios';
 import DogCanvas from './DogCanvas';
 import DuckCanvas from './DuckCanvas';
 import BearCanvas from './BearCanvas';
@@ -28,6 +29,10 @@ const Questions = () => {
   const [currentCanvas, setCurrentCanvas] = useState('DogCanvas');
   const [animation, setAnimation] = useState('');
   const [clickedIndex, setClickedIndex] = useState(null);
+  const { response, trigger } = useAxios({
+    method: 'post',
+    url: '/api/tree/add'
+  });
 
   const handleInputChange = (e, fieldName) => {
     const { value } = e.target;
@@ -83,21 +88,17 @@ const Questions = () => {
   // 모달창에서 완료 버튼을 눌렀을때 백으로 답변 내역을 보내고, 모달 해제, tree 페이지로 이동
   const handleModalComplete = () => {
     console.log('Answers:', answers);
-    setShowModal(false);
-    navigate('/host/tree/1');
-    // axios
-    //   .post(`/api/tree/add`, answers, {
-    //     withCredentials: true
-    //   })
-    //   .then((response) => {
-    //     console.log('Answers:', answers);
-    //     setShowModal(false);
-    //     navigate('/host/tree/{:id}');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error posting answers:', error);
-    //   });
+    trigger({
+      data: answers
+    });
   };
+
+  useEffect(() => {
+    if (response) {
+      setShowModal(false);
+      navigate(`/host/tree/${reponse.id}`);
+    }
+  }, [response]);
 
   // 각 단계마다 답변이 입력되었는지 확인
   const isAnswerEntered = (index) => {

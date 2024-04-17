@@ -1,50 +1,62 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
+import axiosInstance from '../../utils/axiosInstance';
+import { useLoading } from '../common/LoadingContext';
+import { useErrorBoundary } from 'react-error-boundary';
 
-const useAxios = (configParams) => {
-  axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-  const [res, setRes] = useState('');
-  const [err, setErr] = useState('');
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    fetchDataUsingAxios(configParams);
-  }, []);
-  const fetchDataUsingAxios = async () => {
-    await axios
-      .request(configParams)
-      .then((res) => setRes(res))
-      .catch((err) => setErr(err))
-      .finally(() => setLoading(false));
+const useAxios = ({
+  method = 'get',
+  url = '',
+  data = {},
+  applyResult = true,
+  isShowBoundary = true,
+  shouldSetError = true,
+  shouldInitFetch = false
+}) => {
+  const [response, setResponse] = useState();
+  const [error, setError] = useState();
+  const { actions } = useLoading();
+  const { showBoundary } = useErrorBoundary();
+
+  const trigger = async ({
+    method: triggerMethod = method,
+    url: triggerUrl = url,
+    data: triggerData = data,
+    applyResult: triggerApplyResult = applyResult,
+    isShowBoundary: triggerIsShowBoundary = isShowBoundary,
+    shouldSetError: triggerShouldSetError = shouldSetError
+  }) => {
+    actions.startLoading;
+    await axiosInstance
+      .request({
+        url: triggerUrl,
+        method: triggerMethod,
+        data: triggerData
+      })
+      .then((triggerResponse) => {
+        if (triggerApplyResult) {
+          setResponse(triggerResponse);
+        }
+        return response;
+      })
+      .catch((triggerError) => {
+        if (triggerShouldSetError) {
+          setError(triggerError);
+        }
+        if (triggerIsShowBoundary) {
+          showBoundary(triggerError);
+        }
+      })
+      .finally(() => actions.endLoading);
+
+    return response;
   };
-  return [res, err, loading];
-};
-export default useAxios;
 
-/**
- * @description 아래 코드로 사용하면 됨
-import { useEffect, useState } from "react/cjs/react.development";
-import useAxios from "./useAxios";
-const YourComponent = () => {
-     const [data, setData] = useState(null);
-     const [todo, isError, isLoading] = useAxios({
-           url: '/todos/2',
-           method: 'get',
-           body: {...},
-           headers: {...}
-     });
-     use Effect(() => {
-        if(todo && todo.data) setData(todo.data)
-     }, [todo]);
-     return (
-       <> {isLoading ? (
-            <p>isLoading...</p>
-       ) : (
-           <div>
-                {isError && <p>{isError.message}</p>}
-                {data && <p>{data.title}</p>}</div>
-           </div>
-        )} </>
-      )
-}
-export default YourComponent;
- */
+  useEffect(() => {
+    shouldInitFetch && console.log('초기 요청합니다!!', method, url);
+    shouldInitFetch && trigger({ method, url, data });
+  }, []);
+
+  return { response, error, trigger };
+};
+
+export default useAxios;

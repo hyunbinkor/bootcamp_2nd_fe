@@ -2,21 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/common/Layout.jsx';
+import { LoadingProvider } from './components/common/LoadingContext.jsx';
 import { ErrorBoundary } from 'react-error-boundary';
 import './index.css';
 import Home from './pages/Homepages/Home.jsx';
 import Error from './pages/Homepages/Error.jsx';
+import Load from './pages/Homepages/Loading.jsx';
 const Kakao = React.lazy(() => import('./pages/Homepages/Kakao.jsx'));
 const Naver = React.lazy(() => import('./pages/Homepages/Naver.jsx'));
 const HostIsland = React.lazy(() => import('./pages/hostpages/Island.jsx'));
 const Questions = React.lazy(() => import('./pages/hostpages/Questions.jsx'));
-import SelectImage from './pages/guestpages/SelectImage.jsx';
-import Message from './pages/guestpages/Message.jsx';
-import HostMessage from './pages/hostpages/Message.jsx';
-import Load from './pages/Homepages/Loading.jsx';
-import GuestIsland from './pages/guestpages/Island.jsx';
-import Temp from './pages/guestpages/Temp.jsx';
-import Farm from './pages/hostpages/Farm.jsx';
+const SelectImage = React.lazy(
+  () => import('./pages/guestpages/SelectImage.jsx')
+);
+const Message = React.lazy(() => import('./pages/guestpages/Message.jsx'));
+const HostMessage = React.lazy(() => import('./pages/hostpages/Message.jsx'));
+const GuestIsland = React.lazy(() => import('./pages/guestpages/Island.jsx'));
+const Temp = React.lazy(() => import('./pages/guestpages/Temp.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -33,15 +35,16 @@ const router = createBrowserRouter([
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
       { path: '/guest/tree/:id/temp', element: <Temp /> },
-      { path: '/host/question', element: <Questions /> },
-      { path: '/host/Farm', element: <Farm /> }
+      { path: '/host/question', element: <Questions /> }
     ]
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
-  
-    <ErrorBoundary FallbackComponent={<Error />}>
+  // <React.StrictMode>
+  <ErrorBoundary FallbackComponent={Error}>
+    <LoadingProvider>
       <RouterProvider router={router} />
-    </ErrorBoundary>
-
+    </LoadingProvider>
+  </ErrorBoundary>
+  // </React.StrictMode>
 );
