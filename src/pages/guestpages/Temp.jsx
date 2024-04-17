@@ -76,7 +76,7 @@ function GridBox(props) {
   return (
     <>
       <>
-        <OrbitControls autoRotateSpeed={1} />
+        <gridHelper args={[5, 5]} position-y={0.18} />
         <mesh
           {...props}
           ref={mesh}
@@ -102,7 +102,7 @@ function GridBox(props) {
           <mesh position={previewPosition}>
             {/* <boxGeometry args={[0.8, 0.8, 0.8]} /> */}
             {/* <meshStandardMaterial color="blue" opacity={0.5} transparent /> */}
-            <ImageMesh modelUrl={props.image} scale={0.3} />
+            <ImageMesh modelUrl={props.image} scale={0.35} />
           </mesh>
         )}
       </>
@@ -124,14 +124,23 @@ function GridBox(props) {
 
 function Temp() {
   const [cameraPosition, setCameraPosition] = useState([0, 5, 7]);
+  const [cameraState, setCameraState] = useState("위에서 보기");
 
   const location = useLocation();
   const { image, input } = location.state;
   const params = useParams();
   const treeId = params.id;
 
+
   const handleButtonClick = () => {
-    setCameraPosition([0, 10, 0]); // 카메라 위치 변경
+    if (cameraState === "원래대로 보기") {
+      setCameraPosition([0, 5, 7]); // 카메라 위치 변경
+      setCameraState("위에서 보기")
+    }
+    else{
+      setCameraPosition([0,8,0])
+      setCameraState("원래대로 보기")
+    }
   };
 
   const CameraController = () => {
@@ -176,7 +185,7 @@ function Temp() {
         className="fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider text-center"
         onClick={handleButtonClick}
       >
-        위에서 보기
+        {cameraState}
       </div>
     </>
   );
