@@ -18,6 +18,7 @@ export default {
     themes: [
       {
         custom: {
+          primary: '#FF9800',
           warning: '#FEE500',
           success: '#2DB400',
           error: '#FF9800'

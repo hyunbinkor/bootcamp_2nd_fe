@@ -1,7 +1,10 @@
-import axios from 'axios';
+import axios, { isAxiosError, HttpStatusCode } from 'axios';
+import { useErrorBoundary } from 'react-error-boundary';
+
+const { showBoundary } = useErrorBoundary;
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URI,
+  // baseURL: import.meta.env.VITE_API_URI,
   timeout: 5000,
   withCredentials: true
 });
@@ -10,6 +13,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // 요청이 전달되기 전에 작업 수행
+    console.log(config);
     return config;
   },
   (error) => {
@@ -21,15 +25,32 @@ axiosInstance.interceptors.request.use(
 // 응답 인터셉터 추가하기
 axiosInstance.interceptors.response.use(
   (response) => {
-    // 2xx 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
-    // 응답 데이터가 있는 작업 수행
+    // 응답 데이터를 반환
     const res = response.data;
+    console.log(res);
     return res;
   },
   (error) => {
-    // 2xx 외의 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
-    // 응답 오류가 있는 작업 수행
-    return Promise.reject(error);
+    // AxiosError들에 대해서 핸들링
+    if (isAxiosError(error)) {
+      if (error.response.status === HttpStatusCode.BadRequest) {
+        throw new Error('포털의 문제로 로그인에 실패하였습니다.');
+      }
+      if (error.response.status === HttpStatusCode.Unauthorized) {
+        throw new Error('이미 정원이 존재하는 사용자입니다.');
+      }
+      if (error.response.status === HttpStatusCode.Forbidden) {
+        throw new Error('모든 질문에 답변해주세요.');
+      }
+      if (error.response.status === HttpStatusCode.NotFound) {
+        throw new Error('잘못된 주소입니다.');
+      }
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        throw new Error('서버에 문제가 있습니다. 잠시 뒤에 시도해주세요.');
+      }
+    } else {
+      throw new Error('예상치 못한 에러가 발생했습니다.');
+    }
   }
 );
 

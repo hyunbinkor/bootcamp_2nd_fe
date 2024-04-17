@@ -8,14 +8,16 @@ import './index.css';
 import Home from './pages/Homepages/Home.jsx';
 import GuestTree from './pages/guestpages/Tree.jsx';
 import Error from './pages/Homepages/Error.jsx';
+import Load from './pages/Homepages/Loading.jsx';
 const Kakao = React.lazy(() => import('./pages/Homepages/Kakao.jsx'));
 const Naver = React.lazy(() => import('./pages/Homepages/Naver.jsx'));
 const HostTree = React.lazy(() => import('./pages/hostpages/Tree.jsx'));
 const Questions = React.lazy(() => import('./pages/hostpages/Questions.jsx'));
-import SelectImage from './pages/guestpages/SelectImage.jsx';
-import Message from './pages/guestpages/Message.jsx';
-import HostMessage from './pages/hostpages/Message.jsx';
-import Load from './pages/Homepages/Loading.jsx';
+const SelectImage = React.lazy(
+  () => import('./pages/guestpages/SelectImage.jsx')
+);
+const Message = React.lazy(() => import('./pages/guestpages/Message.jsx'));
+const HostMessage = React.lazy(() => import('./pages/hostpages/Message.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -36,11 +38,11 @@ const router = createBrowserRouter([
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <ErrorBoundary FallbackComponent={<Error />}>
-      <LoadingProvider>
-        <RouterProvider router={router} />
-      </LoadingProvider>
-    </ErrorBoundary>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ErrorBoundary FallbackComponent={Error}>
+    <LoadingProvider>
+      <RouterProvider router={router} />
+    </LoadingProvider>
+  </ErrorBoundary>
+  // </React.StrictMode>
 );
