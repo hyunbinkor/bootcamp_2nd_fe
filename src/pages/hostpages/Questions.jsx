@@ -3,26 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
 import axios from 'axios';
 import useAxios from '../../components/hooks/useAxios';
+import DogCanvas from './DogCanvas';
+import DuckCanvas from './DuckCanvas';
+import BearCanvas from './BearCanvas';
+import './animation.css';
 
-const inputFieldNames = ['ok', 'nickName', 'color', 'treeName'];
+const inputFieldNames = ['ok', 'nickName', 'animal', 'treeName'];
 
 const Questions = () => {
   const [currentIndex, setCurrentIndex] = useState(0); //질문 index
   const [answers, setAnswers] = useState({
     ok: '',
     nickName: '',
-    color: '',
+    animal: '',
     treeName: ''
   });
-
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const questions = [
-    '트리를 만들기 전에 몇 가지 질문에 대답해줘😃',
+    '트리를 만들기 전에 몇 가지 질문에 대답해줘 😃',
     '너를 부르는 별명을 알려줘!',
-    '너는 어떤 색깔을 좋아해? 🎨',
+    '너는 어떤 동물을 좋아해? 🎨',
     '트리 이름을 지어줘! 🎄'
   ];
+  const [currentCanvas, setCurrentCanvas] = useState('DogCanvas');
+  const [animation, setAnimation] = useState('');
   const [clickedIndex, setClickedIndex] = useState(null);
   const { response, trigger } = useAxios({
     method: 'post',
@@ -100,6 +105,33 @@ const Questions = () => {
     return answers[inputFieldNames[index]] !== '';
   };
 
+  // 화살표 클릭 시 애니메이션을 적용하는 로직
+  const handleRightClick = (nextCanvas) => {
+    // nextCanvas 파라미터 추가
+    setAnimation('slide-out-left');
+    setTimeout(() => {
+      setCurrentCanvas(nextCanvas);
+      setAnimation('slide-in-right');
+    }, 500); // 500ms 후에 캔버스 변경 및 애니메이션 적용
+  };
+
+  // 좌측 화살표 클릭 시 실행되는 함수
+  const handleLeftClick = (nextCanvas) => {
+    setAnimation('slide-out-right');
+    setTimeout(() => {
+      setCurrentCanvas(nextCanvas);
+      setAnimation('slide-in-left');
+    }, 500);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimation(''); // 애니메이션 종료 후 클래스 초기화
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [currentCanvas]);
+
   const renderAnswerInputFromCurrentIndex = useCallback(() => {
     const mapIndexToElement = {
       0: (
@@ -127,25 +159,44 @@ const Questions = () => {
         />
       ),
       2: (
-        <div className="flex flex-col max-w-full gap-4 mt-16">
-          <button
-            className={`border border-stcolor px-32 py-4 max-w-full rounded-md ${clickedIndex === 2 ? 'bg-tbcolor' : ''}`}
-            onClick={() => handleButtonClick(2, 'Blue')}
+        <div>
+          <div
+            className=" z-10 absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
+            onClick={() => {
+              if (currentCanvas === 'DogCanvas') {
+                handleLeftClick('DuckCanvas');
+              } else if (currentCanvas === 'DuckCanvas') {
+                handleLeftClick('BearCanvas');
+              } else {
+                handleLeftClick('DogCanvas');
+              }
+            }}
           >
-            Blue
-          </button>
-          <button
-            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 3 ? 'bg-tbcolor' : ''}`}
-            onClick={() => handleButtonClick(3, 'Green')}
+            &lt;
+          </div>
+          <div
+            className="z-10 absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+            onClick={() => {
+              if (currentCanvas === 'DogCanvas') {
+                handleRightClick('DuckCanvas');
+              } else if (currentCanvas === 'DuckCanvas') {
+                handleRightClick('BearCanvas');
+              } else {
+                handleRightClick('DogCanvas');
+              }
+            }}
           >
-            Green
-          </button>
-          <button
-            className={`border border-stcolor px-32 py-4 rounded-md ${clickedIndex === 4 ? 'bg-tbcolor' : ''}`}
-            onClick={() => handleButtonClick(4, 'Yellow')}
-          >
-            Yellow
-          </button>
+            &gt;
+          </div>
+          <div className={animation}>
+            {currentCanvas === 'DogCanvas' ? (
+              <DogCanvas handleButtonClick={handleButtonClick} />
+            ) : currentCanvas === 'DuckCanvas' ? (
+              <DuckCanvas handleButtonClick={handleButtonClick} />
+            ) : (
+              <BearCanvas handleButtonClick={handleButtonClick} />
+            )}
+          </div>
         </div>
       ),
       3: (
