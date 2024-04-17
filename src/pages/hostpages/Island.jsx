@@ -41,7 +41,7 @@ function GLTFModel({ modelUrl, position, message }) {
       <primitive
         object={copiedScene}
         position={position}
-        scale={0.5}
+        scale={0.3}
         onClick={() => handleDecorationClick()}
       />
        {/* 주변 조명 추가 */}

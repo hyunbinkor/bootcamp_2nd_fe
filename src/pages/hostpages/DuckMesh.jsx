@@ -9,7 +9,7 @@ function DuckMesh({ directionKeys, onPositionChange }) {
     'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf'
   );
 
-  const [position, setPosition] = useState([0, 0, 0]);
+  const [position, setPosition] = useState([0, 0.2, 0]);
   const [rotation, setRotation] = useState([0, 0, 0]);
 
   useEffect(() => {
