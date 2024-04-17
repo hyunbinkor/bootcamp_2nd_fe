@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function BackArrow() {
+function BackArrow({ image, input }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -9,11 +9,16 @@ function BackArrow() {
     const paths = location.pathname.split('/');
     paths.pop();
     const parentPath = paths.join('/') || '/';
-    navigate(parentPath);
+
+    if (image && input) {
+      navigate(parentPath, { state: { image, input } });
+    } else {
+      navigate(parentPath);
+    }
   };
 
   return (
-    <div className="relative top-0 left-0 m-4">
+    <div className="relative top-0 left-0 m-4 z-10">
       <button
         onClick={goToParentPath}
         className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
