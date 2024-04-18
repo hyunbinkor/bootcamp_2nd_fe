@@ -51,7 +51,7 @@ function Message() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BackArrow />
+      <BackArrow pageNumber={pageNumber}/>
       <h1 className="text-center text-neutral text-3xl font-custom font-black my-8">
         메세지를 입력해 줘!
       </h1>
