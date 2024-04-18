@@ -5,8 +5,8 @@ const { showBoundary } = useErrorBoundary;
 
 const axiosInstance = axios.create({
   // baseURL: import.meta.env.VITE_API_URI,
-  timeout: 5000,
-  withCredentials: true
+  timeout: 5000
+  // withCredentials: true
 });
 
 // 요청 인터셉터 추가하기
