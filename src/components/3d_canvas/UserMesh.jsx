@@ -2,14 +2,15 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-function BearMesh({ directionKeys, onPositionChange }) {
+function UserMesh({ directionKeys, onPositionChange }) {
+  //기존 dog/duck/bear mesh 삭제 후 useMesh로 통합하여 사용
   const meshRef = useRef();
   const gltf = useLoader(
     GLTFLoader,
-    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/bear/model.gltf'
+    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${animal}/model.gltf'
   );
 
-  const [position, setPosition] = useState([0, 0, 0]);
+  const [position, setPosition] = useState([0, 0.2, 0]);
   const [rotation, setRotation] = useState([0, 0, 0]);
 
   useEffect(() => {
@@ -71,4 +72,4 @@ function BearMesh({ directionKeys, onPositionChange }) {
   );
 }
 
-export default BearMesh;
+export default UserMesh;
