@@ -4,9 +4,10 @@ import { OrbitControls } from '@react-three/drei';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useGLTF } from '@react-three/drei';
-import DogMesh from './DogMesh';
-import DuckMesh from './DuckMesh';
-import BearMesh from './BearMesh';
+import UserMesh from './UserMesh';
+import DogMesh from './DogMesh'; //*to do: 테스트 후 삭제예정
+import Modal from '../../components/atom/Modal';
+import useAxios from '../../components/hooks/useAxios';
 
 async function fetchAllMessage(id, pageNum, size) {
   try {
@@ -34,7 +35,7 @@ function GLTFModel({ modelUrl, position, message }) {
     navigate(`/host/tree/${id}/message`, {
       state: { message, icon: modelUrl }
     });
-  }
+  };
 
   return (
     <group>
@@ -44,10 +45,9 @@ function GLTFModel({ modelUrl, position, message }) {
         scale={0.3}
         onClick={() => handleDecorationClick()}
       />
-       {/* 주변 조명 추가 */}
-      
+      {/* 주변 조명 추가 */}
+
       {/* 방향성 조명 추가 */}
-      
     </group>
   );
 }
@@ -84,41 +84,36 @@ function GridBox(props) {
 function Island() {
   const [dogPosition, setDogPosition] = useState([0, 0, 0]);
   const [animal, setAnimal] = useState('dog');
+  const [showModal, setShowModal] = useState(false);
+  const { response, trigger } = useAxios({
+    method: 'delete',
+    url: '/api/user/delete' //*to do: api주소 맞는지 확인 필요
+  });
+
+  const handleDeleteAccountClick = () => {
+    //계정삭제버튼 클릭
+    console.log('클릭');
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    //모달창에서 닫기 클릭
+    setShowModal(false);
+  };
+
+  const handleModalComplete = () => {
+    //모달창에서 완료 클릭
+    trigger({
+      data: answers // delete api로 수정
+    });
+    setShowModal(false);
+  };
 
   useEffect(() => {
     // To do : 백엔드 API 호출 - animal 값을 받아오는 로직 추가 필요
     const fetchedAnimal = 'dog';
     setAnimal(fetchedAnimal);
   }, []);
-
-  // To do : 백엔드 연결 후 아래 코드 주석해제
-
-  // let meshComponent;
-  // if (animal === 'duck') {
-  //   meshComponent = (
-  //     <DuckMesh
-  //       position={dogPosition}
-  //       directionKeys={directionKeys}
-  //       onPositionChange={onDogPositionChange}
-  //     />
-  //   );
-  // } else if (animal === 'dog') {
-  //   meshComponent = (
-  //     <DogMesh
-  //       position={dogPosition}
-  //       directionKeys={directionKeys}
-  //       onPositionChange={onDogPositionChange}
-  //     />
-  //   );
-  // } else if (animal === 'bear') {
-  //   meshComponent = (
-  //     <BearMesh
-  //       position={dogPosition}
-  //       directionKeys={directionKeys}
-  //       onPositionChange={onDogPositionChange}
-  //     />
-  //   );
-  // }
 
   const directionKeys = {
     up: false,
@@ -140,7 +135,6 @@ function Island() {
     }
   };
 
-
   const handlePageChange = (direction) => {
     if (direction === 'left') {
       if (pageNumber > 1) {
@@ -161,7 +155,6 @@ function Island() {
     fetchMessages();
   }, [id, pageNumber]);
 
-
   const onDogPositionChange = (newPosition) => {
     setDogPosition(newPosition);
   };
@@ -171,9 +164,29 @@ function Island() {
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
         민서님의 Mailland
       </div>
+      <div className="relative z-50">
+        <button
+          className="absolute right-0 mr-4 mt-28 border border-solid p-1"
+          onClick={handleDeleteAccountClick} // 버튼 클릭 이벤트 핸들러를 추가합니다.
+        >
+          계정삭제
+        </button>
+        {showModal && (
+          <Modal
+            message="계정을 삭제하시겠습니까?"
+            onClose={handleModalClose}
+            onComplete={handleModalComplete}
+          />
+        )}
+      </div>
       <Canvas camera={{ position: [0, 5, 7] }}>
-        {/*  To do : 백엔드 연결 후 아래 DuckMesh 컴포넌트는 {meshComponent}로 변경 */}
-        <DuckMesh
+        {/* To do : 백엔드 연결 후 아래 주석해제  */}
+        {/* <UserMesh
+          position={dogPosition}
+          directionKeys={directionKeys}
+          onPositionChange={onDogPositionChange}
+        /> */}
+        <DogMesh
           position={dogPosition}
           directionKeys={directionKeys}
           onPositionChange={onDogPositionChange}
@@ -202,11 +215,9 @@ function Island() {
           position={[0, 0, 0]}
           objects={objects}
           setObjects={setObjects}
-
         />
-
-
       </Canvas>
+
       <div
         className="fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider text-center"
         onClick={() => handleCopyClipBoard(`${baseUrl}${location.pathname}`)}
