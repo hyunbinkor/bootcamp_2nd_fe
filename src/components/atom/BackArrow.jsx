@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function BackArrow({ image, input }) {
+function BackArrow({ image, input, pageNumber }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -11,9 +11,9 @@ function BackArrow({ image, input }) {
     const parentPath = paths.join('/') || '/';
 
     if (image && input) {
-      navigate(parentPath, { state: { image, input } });
+      navigate(parentPath, { state: { image, input, pageNumber } });
     } else {
-      navigate(parentPath);
+      navigate(parentPath,{ state: { pageNumber }});
     }
   };
 

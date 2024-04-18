@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import BackArrow from '../../components/atom/BackArrow';
 import axios from 'axios';
@@ -21,6 +21,8 @@ const SelectImage = () => {
   const [currentImages, setCurrentImages] = useState([]);
   const [totalImages, setTotalImages] = useState(0);
   const [images, setImages] = useState([]);
+  const location = useLocation();
+  const { pageNumber } = location.state;
 
   useEffect(() => {
     const fetchIcons = async () => {
@@ -46,7 +48,7 @@ const SelectImage = () => {
   const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
 
   const handleImageClick = (image) => {
-    navigate('message', { state: { image } });
+    navigate('message', { state: { image, pageNumber } });
   };
 
   const handleNextClick = () => {

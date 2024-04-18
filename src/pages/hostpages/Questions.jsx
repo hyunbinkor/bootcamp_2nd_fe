@@ -1,11 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
-import axios from 'axios';
 import useAxios from '../../components/hooks/useAxios';
-import DogCanvas from './DogCanvas';
-import DuckCanvas from './DuckCanvas';
-import BearCanvas from './BearCanvas';
+import DogCanvas from '../../components/3d_canvas/DogCanvas';
+import DuckCanvas from '../../components/3d_canvas/DuckCanvas';
+import BearCanvas from '../../components/3d_canvas/BearCanvas';
 import './animation.css';
 
 const inputFieldNames = ['ok', 'nickName', 'animal', 'treeName'];
@@ -96,7 +95,7 @@ const Questions = () => {
   useEffect(() => {
     if (response) {
       setShowModal(false);
-      navigate(`/host/tree/${reponse.id}`);
+      navigate(`/host/tree/${response.treeData.treeId}`);
     }
   }, [response]);
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import backgroundImage from './TreeBackground.png';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import useAxios from '../../components/hooks/useAxios';
 
 function Decoration({ imageUrl, onClick }) {

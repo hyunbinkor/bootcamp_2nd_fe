@@ -11,7 +11,7 @@ function Message() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { image } = location.state;
+  const { image, pageNumber } = location.state;
 
   const params = useParams();
   const treeId = params.id;
@@ -42,15 +42,16 @@ function Message() {
 
   const addNote = async () => {
     setInput('');
+    console.log(pageNumber);
     navigate(`../guest/tree/${treeId}/image/message/temp`, {
-      state: { image, input }
+      state: { image, input, pageNumber }
     });
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BackArrow />
-      <h1 className="text-center text-neutral text-3xl font-custom font-black mb-8">
+      <BackArrow pageNumber={pageNumber} />
+      <h1 className="text-center text-neutral text-3xl font-custom font-black my-8">
         메세지를 입력해 줘!
       </h1>
       <div className="relative flex-grow">
