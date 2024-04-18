@@ -10,13 +10,15 @@ import Error from './pages/Homepages/Error.jsx';
 import Load from './pages/Homepages/Loading.jsx';
 import HostMessage from './pages/hostpages/Message.jsx';
 import SelectImage from './pages/guestpages/SelectImage.jsx';
+import GuestIsland from './pages/guestpages/Island.jsx';
+import Temp from './pages/guestpages/Temp.jsx';
 const Kakao = React.lazy(() => import('./pages/Homepages/Kakao.jsx'));
 const Naver = React.lazy(() => import('./pages/Homepages/Naver.jsx'));
 const HostIsland = React.lazy(() => import('./pages/hostpages/Island.jsx'));
 const Questions = React.lazy(() => import('./pages/hostpages/Questions.jsx'));
 const Message = React.lazy(() => import('./pages/guestpages/Message.jsx'));
-const GuestIsland = React.lazy(() => import('./pages/guestpages/Island.jsx'));
-const Temp = React.lazy(() => import('./pages/guestpages/Temp.jsx'));
+// const GuestIsland = React.lazy(() => import('./pages/guestpages/Island.jsx'));
+// const Temp = React.lazy(() => import('./pages/guestpages/Temp.jsx'));
 
 const router = createBrowserRouter([
   {
