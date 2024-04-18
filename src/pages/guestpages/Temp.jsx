@@ -110,7 +110,7 @@ function GridBox(props) {
             return (
               <GLTFModel
                 position={[x, 0.13, z]}
-                key={crypto.randomUUID()}
+                key={`object-${index}`}
                 modelUrl={obj.icon}
                 message={obj.message}
               />
@@ -147,7 +147,7 @@ function Temp() {
 
   const location = useLocation();
   const { image, input, pageNumber } = location.state;
-  const [nowPageNumber,setPageNumber] = useState(pageNumber)
+  const [nowPageNumber, setPageNumber] = useState(pageNumber);
   const { id } = useParams();
 
   async function fetchAllMessage(id, pageNum, size) {
@@ -182,7 +182,7 @@ function Temp() {
         setPageNumber(nowPageNumber - 1);
       }
     } else if (direction === 'right') {
-      console
+      console;
       setPageNumber(nowPageNumber + 1);
     }
   };
@@ -198,7 +198,6 @@ function Temp() {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      
       const allMessage = await fetchAllMessage(id, nowPageNumber, 25);
       if (allMessage) {
         setObjects(allMessage);

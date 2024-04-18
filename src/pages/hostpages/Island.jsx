@@ -110,7 +110,7 @@ function GridBox(props) {
           return (
             <GLTFModel
               position={[x, 0.13, z]}
-              key={crypto.randomUUID()}
+              key={`object-${index}`}
               modelUrl={obj.icon}
               message={obj.message}
             />
