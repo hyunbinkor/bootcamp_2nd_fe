@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useGLTF } from '@react-three/drei';
 import UserMesh from '../../components/3d_canvas/UserMesh';
-import Modal from '../../components/atom/Modal';
+// import Modal from '../../components/atom/Modal';
 import useAxios from '../../components/hooks/useAxios';
-import { Cookies } from 'react-cookie';
+import DeleteUser from '../../components/atom/DeleteUser';
 
 async function fetchAllMessage(id, pageNum, size) {
   try {
@@ -45,7 +45,7 @@ function GridBox(props) {
 
   const navigateWithMessage = (message, icon) => {
     navigate(`/host/tree/${id}/message`, {
-      state: { message: message, icon: icon  }
+      state: { message: message, icon: icon }
     });
   };
 
@@ -111,43 +111,7 @@ function GridBox(props) {
 }
 
 function Island() {
-  const [showModal, setShowModal] = useState(false);
-  const cookies = new Cookies();
-  const { response, trigger } = useAxios({
-    method: 'delete',
-    url: '/api/user/delete' //*to do: api주소 맞는지 확인 필요
-  });
-
-  //계정삭제버튼 클릭
-  const handleDeleteAccountClick = () => {
-    setShowModal(true);
-  };
-
-  //모달창에서 닫기 클릭
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-
-  const getCookie = (name) => {
-    return cookies.get(name);
-  };
-
-  //모달창에서 완료 클릭
-  const handleModalComplete = () => {
-    const Token = getCookie('accessToken'); // 쿠키에서 액세스 토큰 가져오기
-    console.log(Token);
-    trigger({
-      Authorization: `Bearer ${Token}`
-    });
-    setShowModal(false);
-  };
-
-  // useEffect(() => {
-  //   // *To do : 백엔드 API 호출 - animal 값을 받아오는 로직 추가 필요
-  //   const fetchedAnimal = 'dog';
-  //   setAnimal(fetchedAnimal);
-  // }, []);
-
+  // const [showModal, setShowModal] = useState(false);
   const baseUrl = 'localhost:4000';
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -164,11 +128,11 @@ function Island() {
   const handlePageChange = (direction) => {
     if (direction === 'left') {
       if (pageNumber > 1) {
-        console.log("L")
+        console.log('L');
         setPageNumber(pageNumber - 1);
       }
     } else if (direction === 'right') {
-              console.log("L")
+      console.log('L');
 
       setPageNumber(pageNumber + 1);
     }
@@ -194,21 +158,8 @@ function Island() {
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
         민서님의 Mailland
       </div>
-      <div className="relative z-50">
-        <button
-          className="absolute right-0 mr-4 mt-28 rounded-md p-1 bg-tbcolor border border-solid-2px text-sm"
-          onClick={handleDeleteAccountClick}
-        >
-          계정삭제
-        </button>
-        {showModal && (
-          <Modal
-            message="계정을 삭제하시겠습니까?"
-            onClose={handleModalClose}
-            onComplete={handleModalComplete}
-          />
-        )}
-      </div>
+
+      <DeleteUser />
       <Canvas camera={{ position: [0, 5, 7] }}>
         {/* To do : 백엔드 연결 후 아래 DogMesh를 UserMesh로 수정  */}
         <ambientLight intensity={1} />
