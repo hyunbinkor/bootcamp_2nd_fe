@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import Load from '../../pages/Homepages/Loading';
 
 const Layout = () => {
   return (
