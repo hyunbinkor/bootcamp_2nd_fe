@@ -96,7 +96,7 @@ const Questions = () => {
   useEffect(() => {
     if (response) {
       setShowModal(false);
-      navigate(`/host/tree/${reponse.id}`);
+      navigate(`/host/tree/${response.treeData.treeId}`);
     }
   }, [response]);
 
