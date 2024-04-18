@@ -4,9 +4,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useSpring, a } from '@react-spring/three';
 import { Vector3 } from 'three';
 
-function UserMesh({ userPosition}) {
+function UserMesh({ userPosition, character}) {
   const meshRef = useRef();
-  const gltf = useLoader(GLTFLoader, `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf`);
+  const gltf = useLoader(GLTFLoader, `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${character}/model.gltf`);
   const [spring, api] = useSpring(() => ({ position: [0, 0, 0], config: { mass: 5, tension: 100, friction: 50, precision: 0.0001 } }));
   
   // 사용자 위치를 이전 위치로 설정하기 위한 ref

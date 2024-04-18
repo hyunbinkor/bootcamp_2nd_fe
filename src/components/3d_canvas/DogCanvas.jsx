@@ -8,7 +8,7 @@ function DogCanvas(props) {
   const [stopRotation, setStopRotation] = useState(false);
 
   const handleButtonClick = () => {
-    props.handleButtonClick(0, 'Dog');
+    props.handleButtonClick(0, 'dog');
     setStopRotation(!stopRotation); // 클릭 시 회전 멈추기/재개하기
   };
 

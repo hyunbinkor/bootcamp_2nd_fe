@@ -5,6 +5,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useGLTF } from '@react-three/drei';
 
+async function getUserInfo(id){
+  try{
+    const response = await axios.get(`/api/tree/info?treeId=${id}`)
+    return response
+  }
+  catch (error) {
+    console.error('유저정보를 불러오는데 실패했습니다:', error);
+    return null;
+  }
+}
+
 async function fetchAllMessage(id, pageNum, size) {
   try {
     const response = await axios.get(`/api/message/${id}/all`, {
@@ -61,6 +72,7 @@ function Island() {
   const navigate = useNavigate();
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [userObj, setUserObj] = useState("");
   const { id } = useParams();
 
   const handleButtonClick = (pageNumber) => {
@@ -86,13 +98,22 @@ function Island() {
         setObjects(allMessage);
       }
     };
+
+    const userInfo = async ()=>{
+      const info = await getUserInfo(id);
+      console.log(info)
+      if (info){
+        setUserObj(info)
+      }
+    }
+    userInfo();
     fetchMessages();
   }, [id, pageNumber]);
 
   return (
     <>
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
-        민서님의 Mailland
+      {userObj.data && userObj.data.nickName}님의 Mailland
       </div>
       <Canvas camera={{ position: [0, 5, 7] }}>
         <ambientLight intensity={1} />

@@ -9,6 +9,16 @@ import Modal from '../../components/atom/Modal';
 import useAxios from '../../components/hooks/useAxios';
 import { Cookies } from 'react-cookie';
 
+async function getUserInfo(id) {
+  try {
+    const response = await axios.get(`/api/tree/info?treeId=${id}`);
+    return response;
+  } catch (error) {
+    console.error('유저정보를 불러오는데 실패했습니다:', error);
+    return null;
+  }
+}
+
 async function fetchAllMessage(id, pageNum, size) {
   try {
     const response = await axios.get(`/api/message/${id}/all`, {
@@ -45,7 +55,7 @@ function GridBox(props) {
 
   const navigateWithMessage = (message, icon) => {
     navigate(`/host/tree/${id}/message`, {
-      state: { message: message, icon: icon  }
+      state: { message: message, icon: icon }
     });
   };
 
@@ -79,7 +89,7 @@ function GridBox(props) {
   return (
     <>
       <OrbitControls autoRotate autoRotateSpeed={0.2} />
-      <UserMesh userPosition={duckPosition} />
+      <UserMesh userPosition={duckPosition} character={props.character} />
       {/* 초록 상단 */}
       <mesh {...props} scale={[1, 0.1, 1]} onClick={onClick} position-y={-0.12}>
         <boxGeometry args={[5, 3, 5]} />
@@ -152,6 +162,7 @@ function Island() {
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
+  const [userObj, setUserObj] = useState("");
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -164,11 +175,11 @@ function Island() {
   const handlePageChange = (direction) => {
     if (direction === 'left') {
       if (pageNumber > 1) {
-        console.log("L")
+        console.log('L');
         setPageNumber(pageNumber - 1);
       }
     } else if (direction === 'right') {
-              console.log("L")
+      console.log('L');
 
       setPageNumber(pageNumber + 1);
     }
@@ -181,18 +192,21 @@ function Island() {
         setObjects(allMessage);
       }
     };
-    fetchMessages();
-    console.log(objects);
-  }, [id, pageNumber]);
 
-  const onDogPositionChange = (newPosition) => {
-    setDogPosition(newPosition);
-  };
+    const userInfo = async () => {
+      const info = await getUserInfo(id);
+      if (info) {
+        setUserObj(info)
+      }
+    };
+    fetchMessages();
+    userInfo();
+  }, [id, pageNumber,userObj]);
 
   return (
     <>
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
-        민서님의 Mailland
+        {userObj.data && userObj.data.nickName}님의 Mailland
       </div>
       <div className="relative z-50">
         <button
@@ -232,6 +246,7 @@ function Island() {
           position={[0, 0, 0]}
           objects={objects}
           setObjects={setObjects}
+          character={userObj && userObj.data.animal}
         />
       </Canvas>
 
