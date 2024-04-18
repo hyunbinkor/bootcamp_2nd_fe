@@ -122,11 +122,11 @@ function GridBox(props) {
 
 function Island() {
   // const [showModal, setShowModal] = useState(false);
-  const baseUrl = 'localhost:4000';
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
-  const [userObj, setUserObj] = useState("");
+  const [userObj, setUserObj] = useState('');
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -160,12 +160,12 @@ function Island() {
     const userInfo = async () => {
       const info = await getUserInfo(id);
       if (info) {
-        setUserObj(info)
+        setUserObj(info);
       }
     };
     fetchMessages();
     userInfo();
-  }, [id, pageNumber,userObj]);
+  }, [id, pageNumber, userObj]);
 
   return (
     <>

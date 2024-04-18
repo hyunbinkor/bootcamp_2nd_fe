@@ -49,7 +49,7 @@ const handleCopyClipBoard = async (text) => {
 function HostTree() {
   const { id } = useParams();
   console.log(id);
-  const baseUrl = 'localhost:4000';
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   const [decorations, setDecorations] = useState([]);
   const { response } = useAxios({
     url: `/api/message/${id}/all`,
