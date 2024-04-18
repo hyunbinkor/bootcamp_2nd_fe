@@ -5,6 +5,10 @@ import BackArrow from '../../components/atom/BackArrow';
 import axios from 'axios';
 import { ImageMesh } from '../../components/common/ImageMesh';
 
+const Image = [
+  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/cactus/model.gltf'
+];
+
 async function fetchIcons() {
   try {
     const response = await axios.get('/api/message/icon/all');
@@ -65,8 +69,8 @@ const SelectImage = () => {
     <div className="min-h-screen flex flex-col ">
       <BackArrow />
       <div className="relative flex-grow">
-        <div className="flex flex-col mt-16 px-6 items-center justify-center">
-          <h1 className="text-neutral text-3xl font-custom font-black mb-8">
+        <div className="flex flex-col mt-8 px-6 items-center justify-center">
+          <h1 className="text-neutral text-3xl font-custom font-black mb-16">
             3D 모델을 골라봐!
           </h1>
           <div
