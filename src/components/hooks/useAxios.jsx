@@ -31,9 +31,9 @@ const useAxios = ({
         url: triggerUrl,
         method: triggerMethod,
         data: triggerData,
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`
+        // }
       })
       .then((triggerResponse) => {
         if (triggerApplyResult) {

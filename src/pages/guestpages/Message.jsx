@@ -11,7 +11,8 @@ function Message() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { image } = location.state;
+  const { image, pageNumber } = location.state;
+  
 
   const params = useParams();
   const treeId = params.id;
@@ -42,8 +43,9 @@ function Message() {
 
   const addNote = async () => {
     setInput('');
+    console.log(pageNumber)
     navigate(`../guest/tree/${treeId}/image/message/temp`, {
-      state: { image, input }
+      state: { image, input,pageNumber }
     });
   };
 

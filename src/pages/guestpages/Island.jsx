@@ -43,8 +43,8 @@ function GridBox(props) {
         <meshStandardMaterial attach="material" color="#b97a20" />
       </mesh>
 
-      {props.objects.map((obj, index) => {
-        const { x, y, z } = obj.coordinate;
+      {props.objects.length > 0 && props.objects.map((obj, index) => {
+        const { x, z } = obj.coordinate;
         return (
           <GLTFModel
             key={crypto.randomUUID()}
@@ -63,8 +63,10 @@ function Island() {
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
 
-  const handleButtonClick = () => {
-    navigate(`/guest/tree/4ff85ae1cd6e476cb47addce5479c689/image`);
+  const handleButtonClick = (pageNumber) => {
+    navigate(`/guest/tree/${id}/image`, {
+      state: { pageNumber }
+    });
   };
 
   const handlePageChange = (direction) => {
@@ -110,7 +112,7 @@ function Island() {
       </Canvas>
       <div className="fixed flex justify-around bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider">
         <button onClick={() => handlePageChange('left')}>L</button>
-        <div className="text-centered" onClick={handleButtonClick}>
+        <div className="text-centered" onClick={()=>{handleButtonClick(pageNumber)}}>
           새 글 쓰기
         </div>
         <button onClick={() => handlePageChange('right')}>R</button>

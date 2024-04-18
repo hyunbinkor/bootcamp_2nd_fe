@@ -1,74 +1,41 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useLoader } from '@react-three/fiber';
+import React, { useRef, useEffect } from 'react';
+import { useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useSpring, a } from '@react-spring/three';
+import { Vector3 } from 'three';
 
-function UserMesh({ directionKeys, onPositionChange }) {
-  //기존 dog/duck/bear mesh 삭제 후 useMesh로 통합하여 사용
+function UserMesh({ userPosition}) {
   const meshRef = useRef();
-  const gltf = useLoader(
-    GLTFLoader,
-    'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${animal}/model.gltf'
-  );
-
-  const [position, setPosition] = useState([0, 0.2, 0]);
-  const [rotation, setRotation] = useState([0, 0, 0]);
+  const gltf = useLoader(GLTFLoader, `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf`);
+  const [spring, api] = useSpring(() => ({ position: [0, 0, 0], config: { mass: 5, tension: 100, friction: 50, precision: 0.0001 } }));
+  
+  // 사용자 위치를 이전 위치로 설정하기 위한 ref
+  const prevPositionRef = useRef(new Vector3());
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      let deltaPosition = [0, 0, 0];
-      let newRotation = rotation;
-      switch (e.key) {
-        case 'ArrowUp':
-          deltaPosition = [0, 0, -0.1];
-          newRotation = [0, Math.PI, 0];
-          break;
-        case 'ArrowDown':
-          deltaPosition = [0, 0, 0.1];
-          newRotation = [0, 0, 0];
-          break;
-        case 'ArrowLeft':
-          deltaPosition = [-0.1, 0, 0];
-          newRotation = [0, -Math.PI / 3, 0];
-          break;
-        case 'ArrowRight':
-          deltaPosition = [0.1, 0, 0];
-          newRotation = [0, Math.PI / 3, 0];
-          break;
-        default:
-          break;
-      }
-      setPosition((prevPosition) => {
-        const newPosition = prevPosition.map((value, index) => {
-          const newValue = (value + deltaPosition[index]).toFixed(2);
-          return Number(newValue);
-        });
-        console.log(`캐릭터 위치: [${newPosition.join(', ')}]`);
-        return newPosition;
-      });
+    const [x, y, z] = userPosition;
+    const newPosition = new Vector3(x, y, z);
 
-      setRotation(newRotation);
-    };
+    // 오브젝트의 위치를 업데이트
+    api.start({ position: [x, y, z] });
+    
+    // 이전 위치 업데이트
+    prevPositionRef.current = newPosition;
+  }, [userPosition, api]);
 
-    const handlePositionChange = () => {
-      onPositionChange(position);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    handlePositionChange();
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [rotation]);
+  useFrame(() => {
+    if (meshRef.current) {
+      // 매 프레임마다 사용자의 위치를 바라보도록 오브젝트 업데이트
+      const [x, y, z] = userPosition;
+      const userPositionVec = new Vector3(x, y, z);
+      meshRef.current.lookAt(userPositionVec);
+    }
+  });
 
   return (
-    <group ref={meshRef} position={position} rotation={rotation}>
-      <primitive
-        object={gltf.scene}
-        scale={[0.7, 0.7, 0.7]}
-        directionKeys={directionKeys}
-      />
-    </group>
+    <a.group ref={meshRef} {...spring}>
+      <primitive object={gltf.scene} scale={[0.7, 0.7, 0.7]} />
+    </a.group>
   );
 }
 

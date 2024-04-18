@@ -71,3 +71,4 @@ function DuckMesh(props) {
 }
 
 export default DuckCanvas;
+
