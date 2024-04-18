@@ -123,6 +123,7 @@ function GridBox(props) {
 function Island() {
   // const [showModal, setShowModal] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const modifiedPathname = location.pathname.replace('/host/', '/guest/');
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
@@ -205,7 +206,7 @@ function Island() {
         <button onClick={() => handlePageChange('left')}>L</button>
         <div
           className="text-centered"
-          onClick={() => handleCopyClipBoard(`${baseUrl}${location.pathname}`)}
+          onClick={() => handleCopyClipBoard(`${baseUrl}${modifiedPathname}`)}
         >
           내 메일랜드 공유하기
         </div>
