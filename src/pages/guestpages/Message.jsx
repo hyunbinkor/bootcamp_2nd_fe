@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
 import BackArrow from '../../components/atom/BackArrow';
-import { ImageMesh } from './ImageMesh';
+import { ImageMesh } from '../../components/common/ImageMesh';
 import { Canvas } from '@react-three/fiber';
 
 function Message() {
@@ -16,7 +16,6 @@ function Message() {
   const params = useParams();
   const treeId = params.id;
 
-  const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -31,19 +30,6 @@ function Message() {
     setAlertMessage('');
     setShowAlert(false);
   };
-  // 메세지 남기기 버튼을 눌렀을 때 모달 생성
-  const handleModalCreate = () => {
-    setShowModal(true);
-  };
-  // 모달창에서 닫기 버튼을 눌렀을 때 모달 해제
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-  // 모달창에서 완료 버튼을 눌렀을 때 모달 해제, post
-  const handleModalComplete = () => {
-    setShowModal(false);
-    addNote();
-  };
 
   //메세지 검사
   const handleInputCheck = () => {
@@ -51,12 +37,14 @@ function Message() {
     if (input.trim().length < 1) {
       return handleAlertCreate('메세지를 입력해주세요!');
     }
-    handleModalCreate();
+    addNote();
   };
 
   const addNote = async () => {
     setInput('');
-    navigate(`../guest/tree/${treeId}/temp`, { state: { image, input } });
+    navigate(`../guest/tree/${treeId}/image/message/temp`, {
+      state: { image, input }
+    });
   };
 
   return (
@@ -100,13 +88,6 @@ function Message() {
             메세지 남기러 가기
           </div>
 
-          {showModal && (
-            <Modal
-              message="작성하신 내용은 수정이 어려워요.  신중하게 작성해 주세요!"
-              onClose={handleModalClose}
-              onComplete={handleModalComplete}
-            />
-          )}
           {showAlert && (
             <Alert message={alertMessage} onClose={handleAlertClose} />
           )}

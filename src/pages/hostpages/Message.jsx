@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ImageMesh } from '../../components/common/ImageMesh';
+import { Canvas } from '@react-three/fiber';
 
 function Message() {
   const [showModal, setShowModal] = useState(true);
@@ -23,12 +25,12 @@ function Message() {
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="relative flex-grow">
         <div className="flex flex-col items-center justify-center mt-16">
-          <img
-            src={image}
-            alt="아이콘"
-            className="
-                  w-20 h-20 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full"
-          />
+          <Canvas style={{ width: '100%', height: '100%' }}>
+            <ambientLight intensity={1} />
+            <directionalLight />
+            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+            <ImageMesh modelUrl={image} />
+          </Canvas>
           <textarea
             className="shadow-lg px-2 resize-none"
             value={input}

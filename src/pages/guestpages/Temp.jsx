@@ -2,8 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { ImageMesh } from './ImageMesh';
+import { ImageMesh } from '../../components/common/ImageMesh';
 import axios from 'axios';
+import BackArrow from '../../components/atom/BackArrow';
 import Alert from '../../components/atom/Alert';
 import Modal from '../../components/atom/Modal';
 
@@ -59,7 +60,7 @@ function GridBox(props) {
 
     if (postSuccess) {
       setPostSuccess(false);
-      navigate('../guest/tree/:id');
+      navigate(`../guest/tree/${props.treeId}`);
     }
   };
 
@@ -124,22 +125,20 @@ function GridBox(props) {
 
 function Temp() {
   const [cameraPosition, setCameraPosition] = useState([0, 5, 7]);
-  const [cameraState, setCameraState] = useState("위에서 보기");
+  const [cameraState, setCameraState] = useState('위에서 보기');
 
   const location = useLocation();
   const { image, input } = location.state;
   const params = useParams();
   const treeId = params.id;
 
-
   const handleButtonClick = () => {
-    if (cameraState === "원래대로 보기") {
+    if (cameraState === '원래대로 보기') {
       setCameraPosition([0, 5, 7]); // 카메라 위치 변경
-      setCameraState("위에서 보기")
-    }
-    else{
-      setCameraPosition([0,8,0])
-      setCameraState("원래대로 보기")
+      setCameraState('위에서 보기');
+    } else {
+      setCameraPosition([0, 8, 0]);
+      setCameraState('원래대로 보기');
     }
   };
 
@@ -154,6 +153,7 @@ function Temp() {
 
   return (
     <>
+      <BackArrow image={image} input={input} />
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
         민서님의 Mailland
       </div>

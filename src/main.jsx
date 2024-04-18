@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       { path: '/guest/tree/:id', element: <GuestIsland /> },
       { path: '/guest/tree/:id/image', element: <SelectImage /> },
       { path: '/guest/tree/:id/image/message', element: <Message /> },
-      { path: '/guest/tree/:id/temp', element: <Temp /> },
+      { path: '/guest/tree/:id/image/message/temp', element: <Temp /> },
       { path: '/host/question', element: <Questions /> }
     ]
   }
