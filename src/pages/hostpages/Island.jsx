@@ -4,8 +4,8 @@ import { OrbitControls } from '@react-three/drei';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useGLTF } from '@react-three/drei';
-import UserMesh from './UserMesh';
-import DogMesh from './DogMesh'; //*to do: 테스트 후 삭제예정
+import UserMesh from '../../components/3d_canvas/UserMesh';
+import DogMesh from '../../components/3d_canvas/DogMesh'; //* To do: 테스트 후 삭제예정
 import Modal from '../../components/atom/Modal';
 import useAxios from '../../components/hooks/useAxios';
 
@@ -67,7 +67,7 @@ function GridBox(props) {
       </mesh>
       {props.objects.map((obj, index) => {
         const { x, y, z } = obj.coordinate;
-        console.log(obj);
+        // console.log(obj);
         return (
           <GLTFModel
             position={[x, 0.2, z]}
@@ -90,30 +90,40 @@ function Island() {
     url: '/api/user/delete' //*to do: api주소 맞는지 확인 필요
   });
 
+  //계정삭제버튼 클릭
   const handleDeleteAccountClick = () => {
-    //계정삭제버튼 클릭
-    console.log('클릭');
     setShowModal(true);
   };
 
+  //모달창에서 닫기 클릭
   const handleModalClose = () => {
-    //모달창에서 닫기 클릭
     setShowModal(false);
   };
 
+  //모달창에서 완료 클릭
   const handleModalComplete = () => {
-    //모달창에서 완료 클릭
     trigger({
-      data: answers // delete api로 수정
+      Authorization: `Bearer ${Token}` // *To do : delete api로 수정
     });
     setShowModal(false);
   };
 
-  useEffect(() => {
-    // To do : 백엔드 API 호출 - animal 값을 받아오는 로직 추가 필요
-    const fetchedAnimal = 'dog';
-    setAnimal(fetchedAnimal);
-  }, []);
+  // useEffect(() => {
+  //   const token = document.cookie
+  //     .split(';')
+  //     .find((cookie) => cookie.startsWith('token='));
+  //   if (token) {
+  //     const authToken = token.split('=')[1];
+  //     console.log('토큰:', authToken);
+  //     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   // *To do : 백엔드 API 호출 - animal 값을 받아오는 로직 추가 필요
+  //   const fetchedAnimal = 'dog';
+  //   setAnimal(fetchedAnimal);
+  // }, []);
 
   const directionKeys = {
     up: false,
@@ -166,7 +176,7 @@ function Island() {
       </div>
       <div className="relative z-50">
         <button
-          className="absolute right-0 mr-4 mt-28 border border-solid p-1"
+          className="absolute right-0 mr-4 mt-28 rounded-md p-1 bg-tbcolor border border-solid-2px text-sm"
           onClick={handleDeleteAccountClick} // 버튼 클릭 이벤트 핸들러를 추가합니다.
         >
           계정삭제
@@ -180,12 +190,7 @@ function Island() {
         )}
       </div>
       <Canvas camera={{ position: [0, 5, 7] }}>
-        {/* To do : 백엔드 연결 후 아래 주석해제  */}
-        {/* <UserMesh
-          position={dogPosition}
-          directionKeys={directionKeys}
-          onPositionChange={onDogPositionChange}
-        /> */}
+        {/* To do : 백엔드 연결 후 아래 DogMesh를 UserMesh로 수정  */}
         <DogMesh
           position={dogPosition}
           directionKeys={directionKeys}
