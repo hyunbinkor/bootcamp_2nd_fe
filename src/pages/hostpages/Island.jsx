@@ -8,6 +8,7 @@ import UserMesh from '../../components/3d_canvas/UserMesh';
 import DogMesh from '../../components/3d_canvas/DogMesh'; //* To do: 테스트 후 삭제예정
 import Modal from '../../components/atom/Modal';
 import useAxios from '../../components/hooks/useAxios';
+import { Cookies } from 'react-cookie';
 
 async function fetchAllMessage(id, pageNum, size) {
   try {
@@ -85,6 +86,7 @@ function Island() {
   const [dogPosition, setDogPosition] = useState([0, 0, 0]);
   const [animal, setAnimal] = useState('dog');
   const [showModal, setShowModal] = useState(false);
+  const cookies = new Cookies();
   const { response, trigger } = useAxios({
     method: 'delete',
     url: '/api/user/delete' //*to do: api주소 맞는지 확인 필요
@@ -100,24 +102,19 @@ function Island() {
     setShowModal(false);
   };
 
+  const getCookie = (name) => {
+    return cookies.get(name);
+  };
+
   //모달창에서 완료 클릭
   const handleModalComplete = () => {
+    const Token = getCookie('accessToken'); // 쿠키에서 액세스 토큰 가져오기
+    console.log(Token);
     trigger({
-      Authorization: `Bearer ${Token}` // *To do : delete api로 수정
+      Authorization: `Bearer ${Token}`
     });
     setShowModal(false);
   };
-
-  // useEffect(() => {
-  //   const token = document.cookie
-  //     .split(';')
-  //     .find((cookie) => cookie.startsWith('token='));
-  //   if (token) {
-  //     const authToken = token.split('=')[1];
-  //     console.log('토큰:', authToken);
-  //     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
-  //   }
-  // }, []);
 
   // useEffect(() => {
   //   // *To do : 백엔드 API 호출 - animal 값을 받아오는 로직 추가 필요
@@ -177,7 +174,7 @@ function Island() {
       <div className="relative z-50">
         <button
           className="absolute right-0 mr-4 mt-28 rounded-md p-1 bg-tbcolor border border-solid-2px text-sm"
-          onClick={handleDeleteAccountClick} // 버튼 클릭 이벤트 핸들러를 추가합니다.
+          onClick={handleDeleteAccountClick}
         >
           계정삭제
         </button>
