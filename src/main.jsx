@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/common/Layout.jsx';
-import LoadingProvider from './components/common/LoadingContext.jsx';
 import { ErrorBoundary } from 'react-error-boundary';
 import './index.css';
 import Home from './pages/Homepages/Home.jsx';
@@ -42,9 +41,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <ErrorBoundary FallbackComponent={Error}>
-    <LoadingProvider>
-      <RouterProvider router={router} />
-    </LoadingProvider>
+    <RouterProvider router={router} />
   </ErrorBoundary>
   // </React.StrictMode>
 );

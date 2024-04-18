@@ -1,26 +1,18 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useState } from 'react';
 import Load from '../../pages/Homepages/Loading';
 
 export const LoadingContext = createContext({
-  showLoading: () => {},
-  hideLoading: () => {}
+  setIsLoading: () => {}
 });
 
-function LoadingProvider({ children }) {
+function LoadingProvider(props) {
+  const { children } = props;
   const [isLoading, setIsLoading] = useState(false);
 
-  const showLoading = () => {
-    setIsLoading(true);
-  };
-
-  const hideLoading = () => {
-    setIsLoading(false);
-  };
-
   return (
-    <LoadingContext.Provider value={{ showLoading, hideLoading }}>
-      {children}
+    <LoadingContext.Provider value={{ setIsLoading }}>
       {isLoading ?? <Load />}
+      {children}
     </LoadingContext.Provider>
   );
 }

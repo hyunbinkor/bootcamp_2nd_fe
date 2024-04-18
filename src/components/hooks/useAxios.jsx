@@ -14,7 +14,7 @@ const useAxios = ({
 }) => {
   const [response, setResponse] = useState();
   const [error, setError] = useState();
-  const { showLoading, hideLoading } = useLoading();
+  const { isLoading, setIsLoading } = useLoading();
   const { showBoundary } = useErrorBoundary();
 
   const trigger = async ({
@@ -25,7 +25,8 @@ const useAxios = ({
     isShowBoundary: triggerIsShowBoundary = isShowBoundary,
     shouldSetError: triggerShouldSetError = shouldSetError
   }) => {
-    showLoading();
+    setIsLoading(true);
+    console.log(isLoading);
     await axiosInstance
       .request({
         url: triggerUrl,
@@ -46,7 +47,10 @@ const useAxios = ({
           showBoundary(triggerError);
         }
       })
-      .finally(() => hideLoading());
+      .finally(() => {
+        setIsLoading(false);
+        console.log(isLoading);
+      });
 
     return response;
   };
