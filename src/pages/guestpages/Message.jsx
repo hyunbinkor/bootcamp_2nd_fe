@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import Modal from '../../components/atom/Modal';
 import Alert from '../../components/atom/Alert';
 import BackArrow from '../../components/atom/BackArrow';
-import { ImageMesh } from './ImageMesh';
+import { ImageMesh } from '../../components/common/ImageMesh';
 import { Canvas } from '@react-three/fiber';
 
 function Message() {

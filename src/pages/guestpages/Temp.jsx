@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { ImageMesh } from './ImageMesh';
+import { ImageMesh } from '../../components/common/ImageMesh';
 import axios from 'axios';
 import BackArrow from '../../components/atom/BackArrow';
 import Alert from '../../components/atom/Alert';
@@ -60,7 +60,7 @@ function GridBox(props) {
 
     if (postSuccess) {
       setPostSuccess(false);
-      navigate('../guest/tree/');
+      navigate(`../guest/tree/${props.treeId}`);
     }
   };
 
