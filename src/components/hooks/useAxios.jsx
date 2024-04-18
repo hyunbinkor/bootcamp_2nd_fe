@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
-import { useLoading } from '../common/LoadingContext';
+import useLoading from '../../components/hooks/useLoading';
 import { useErrorBoundary } from 'react-error-boundary';
 
 const useAxios = ({
@@ -14,7 +14,7 @@ const useAxios = ({
 }) => {
   const [response, setResponse] = useState();
   const [error, setError] = useState();
-  const { actions } = useLoading();
+  const { showLoading, hideLoading } = useLoading();
   const { showBoundary } = useErrorBoundary();
 
   const trigger = async ({
@@ -25,7 +25,7 @@ const useAxios = ({
     isShowBoundary: triggerIsShowBoundary = isShowBoundary,
     shouldSetError: triggerShouldSetError = shouldSetError
   }) => {
-    actions.startLoading;
+    showLoading();
     await axiosInstance
       .request({
         url: triggerUrl,
@@ -46,7 +46,7 @@ const useAxios = ({
           showBoundary(triggerError);
         }
       })
-      .finally(() => actions.endLoading);
+      .finally(() => hideLoading());
 
     return response;
   };
