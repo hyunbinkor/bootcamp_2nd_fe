@@ -5,7 +5,7 @@ const { showBoundary } = useErrorBoundary;
 
 const axiosInstance = axios.create({
   // baseURL: import.meta.env.VITE_API_URI,
-  timeout: 5000
+  // timeout: 5000
   // withCredentials: true
 });
 
@@ -33,6 +33,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // AxiosError들에 대해서 핸들링
     if (isAxiosError(error)) {
+      console.log(error);
       if (error.response.status === HttpStatusCode.BadRequest) {
         throw new Error('포털의 문제로 로그인에 실패하였습니다.');
       }

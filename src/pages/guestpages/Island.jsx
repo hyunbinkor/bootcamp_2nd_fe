@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useGLTF } from '@react-three/drei';
+import { data } from 'autoprefixer';
 
 async function getUserInfo(id) {
   try {
@@ -72,7 +73,11 @@ function Island() {
   const navigate = useNavigate();
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [userObj, setUserObj] = useState('');
+  const [userObj, setUserObj] = useState({
+    data: {
+      nickName: ''
+    }
+  });
   const { id } = useParams();
 
   const handleButtonClick = (pageNumber) => {
@@ -108,7 +113,7 @@ function Island() {
     };
     userInfo();
     fetchMessages();
-  }, [id, pageNumber]);
+  }, [id, pageNumber, userObj.data.nickName]);
 
   return (
     <>

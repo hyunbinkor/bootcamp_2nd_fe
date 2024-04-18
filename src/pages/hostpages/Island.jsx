@@ -127,7 +127,11 @@ function Island() {
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
-  const [userObj, setUserObj] = useState('');
+  const [userObj, setUserObj] = useState({
+    data: {
+      nickName: ''
+    }
+  });
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -166,7 +170,7 @@ function Island() {
     };
     fetchMessages();
     userInfo();
-  }, [id, pageNumber, userObj]);
+  }, [id, pageNumber, userObj.data.nickName]);
 
   return (
     <>
