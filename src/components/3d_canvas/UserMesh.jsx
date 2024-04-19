@@ -5,15 +5,21 @@ import { useSpring, a } from '@react-spring/three';
 import { Vector3 } from 'three';
 
 function UserMesh({ userPosition, character }) {
-  console.log()
+  console.log();
+  const [userCharacter, setCharacter] = useState(character);
   if (!character) {
-    character = "dog";
+    setCharacter('dog');
   }
-  
   const meshRef = useRef();
-  const gltf = useLoader(GLTFLoader, `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${character}/model.gltf`);
+  const gltf = useLoader(
+    GLTFLoader,
+    `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${userCharacter}/model.gltf`
+  );
   const [isModelLoaded, setIsModelLoaded] = useState(false);
-  const [spring, api] = useSpring(() => ({ position: [0, 0, 0], config: { mass: 5, tension: 100, friction: 50, precision: 0.0001 } }));
+  const [spring, api] = useSpring(() => ({
+    position: [0, 0, 0],
+    config: { mass: 5, tension: 100, friction: 50, precision: 0.0001 }
+  }));
 
   useEffect(() => {
     gltf.scene.traverse((object) => {
