@@ -8,8 +8,7 @@ export default {
       bgcolor: '#FFFBEB',
       ttcolor: '#080707',
       stcolor: '#595454',
-      tbcolor: '#ede8d3',
-      yecolor: '#F0D264;'
+      tbcolor: '#ede8d3'
     },
     fontFamily: {
       custom: ['custom']
