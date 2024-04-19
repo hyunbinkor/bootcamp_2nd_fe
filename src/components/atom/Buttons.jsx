@@ -21,11 +21,7 @@ const NaverButton = () => {
   const handleClick = () => {
     navigate(props.redirect);
   };
-  return (
-    <button onClick={handleClick} className="btn btn-success w-full">
-      네이버로 로그인
-    </button>
-  );
+  return <button className="btn btn-success w-full">네이버로 로그인</button>;
 };
 
 export { KakaoButton, NaverButton };
