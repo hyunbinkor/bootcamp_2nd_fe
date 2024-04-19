@@ -20,10 +20,10 @@ const Questions = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const questions = [
-    '트리를 만들기 전에 몇 가지 질문에 대답해줘 😃',
+    '섬을 만들기 전에 몇 가지 질문에 대답해줘 😃',
     '너를 부르는 별명을 알려줘!',
-    '너는 어떤 동물을 좋아해? 🎨',
-    '트리 이름을 지어줘! 🎄'
+    '너는 어떤 동물을 좋아해? 🐾',
+    '섬의 이름을 지어줘! 🏝️'
   ];
   const [currentCanvas, setCurrentCanvas] = useState('DogCanvas');
   const [animation, setAnimation] = useState('');
