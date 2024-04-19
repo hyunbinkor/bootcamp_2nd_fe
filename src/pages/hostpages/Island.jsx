@@ -9,6 +9,16 @@ import UserMesh from '../../components/3d_canvas/UserMesh';
 import useAxios from '../../components/hooks/useAxios';
 import DeleteUser from '../../components/atom/DeleteUser';
 
+async function getUserInfo(id) {
+  try {
+    const response = await axios.get(`/api/tree/info?treeId=${id}`);
+    return response;
+  } catch (error) {
+    console.error('유저정보를 불러오는데 실패했습니다:', error);
+    return null;
+  }
+}
+
 async function fetchAllMessage(id, pageNum, size) {
   try {
     const response = await axios.get(`/api/message/${id}/all`, {
@@ -79,7 +89,7 @@ function GridBox(props) {
   return (
     <>
       <OrbitControls autoRotate autoRotateSpeed={0.2} />
-      <UserMesh userPosition={duckPosition} />
+      <UserMesh userPosition={duckPosition} character={props.character} />
       {/* 초록 상단 */}
       <mesh {...props} scale={[1, 0.1, 1]} onClick={onClick} position-y={-0.12}>
         <boxGeometry args={[5, 3, 5]} />
@@ -100,7 +110,7 @@ function GridBox(props) {
           return (
             <GLTFModel
               position={[x, 0.13, z]}
-              key={crypto.randomUUID()}
+              key={`object-${index}`}
               modelUrl={obj.icon}
               message={obj.message}
             />
@@ -112,10 +122,16 @@ function GridBox(props) {
 
 function Island() {
   // const [showModal, setShowModal] = useState(false);
-  const baseUrl = 'localhost:4000';
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const modifiedPathname = location.pathname.replace('/host/', '/guest/');
   const [objects, setObjects] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const { id } = useParams();
+  const [userObj, setUserObj] = useState({
+    data: {
+      nickName: ''
+    }
+  });
   const handleCopyClipBoard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -145,18 +161,21 @@ function Island() {
         setObjects(allMessage);
       }
     };
-    fetchMessages();
-    console.log(objects);
-  }, [id, pageNumber]);
 
-  const onDogPositionChange = (newPosition) => {
-    setDogPosition(newPosition);
-  };
+    const userInfo = async () => {
+      const info = await getUserInfo(id);
+      if (info) {
+        setUserObj(info);
+      }
+    };
+    fetchMessages();
+    userInfo();
+  }, [id, pageNumber, userObj.data.nickName]);
 
   return (
     <>
       <div className="fixed top-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-4xl font-bold cursor-pointer tracking-wider text-center">
-        민서님의 Mailland
+        {userObj.data && userObj.data.nickName}님의 Mailland
       </div>
 
       <DeleteUser />
@@ -183,6 +202,7 @@ function Island() {
           position={[0, 0, 0]}
           objects={objects}
           setObjects={setObjects}
+          character={userObj && userObj.data.animal}
         />
       </Canvas>
 
@@ -190,7 +210,7 @@ function Island() {
         <button onClick={() => handlePageChange('left')}>L</button>
         <div
           className="text-centered"
-          onClick={() => handleCopyClipBoard(`${baseUrl}${location.pathname}`)}
+          onClick={() => handleCopyClipBoard(`${baseUrl}${modifiedPathname}`)}
         >
           내 메일랜드 공유하기
         </div>

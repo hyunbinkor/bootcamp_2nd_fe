@@ -8,7 +8,7 @@ function DuckCanvas(props) {
   const [stopRotation, setStopRotation] = useState(false);
 
   const handleButtonClick = () => {
-    props.handleButtonClick(1, 'Duck');
+    props.handleButtonClick(1, 'duck');
     setStopRotation(!stopRotation); // 클릭 시 회전 멈추기/재개하기
   };
 
