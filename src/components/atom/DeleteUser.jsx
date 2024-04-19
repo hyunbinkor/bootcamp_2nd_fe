@@ -32,7 +32,7 @@ const DeleteUser = () => {
   return (
     <div className="relative z-50">
       <button
-        className="absolute right-0 mr-4 mt-28 rounded-md p-2 btn-3d bg-yecolor text-stcolor text-xs shadow-md hover:shadow-lg active:shadow-none transition duration-200"
+        className="absolute right-0 mr-4 mt-28 rounded-md p-2 border text-xs shadow-md hover:shadow-lg active:shadow-none transition duration-200"
         onClick={handleDeleteUserClick}
       >
         계정삭제
