@@ -2,8 +2,33 @@
 <html data-theme="custom" lang="kr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/192x192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#181818"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#f3f3f3"
+    />
+
+    <!-- These meta tags are Apple-specific, and set the web application to run in full-screen mode with a black status bar. Learn more at https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="PWA Starter" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <!-- This tag is used by the PWA Starter CLI to identify template projects. Don't remove if you are using the CLI. -->
+    <meta name="pwa-starter-template-identity" content="pwa-starter" />
+
+    <!-- Imports an icon to represent the document. -->
+    <link rel="icon" href="/assets/icons/icon_24.png" type="image/png" />
+
+    <!-- Imports the manifest to represent the web application. A web app must have a manifest to be a PWA. -->
+    <link rel="manifest" href="/manifest.json" />
+
     <title>Vite + React</title>
     <script
       src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js"

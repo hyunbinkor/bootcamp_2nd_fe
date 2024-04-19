@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei';
+import { OrbitControls, Html, useGLTF } from '@react-three/drei';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { ImageMesh } from '../../components/common/ImageMesh';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import Modal from '../../components/atom/Modal';
 
 function GridBox(props) {
   const mesh = useRef();
-  const [objects, setObjects] = useState([]);
+
   const [previewPosition, setPreviewPosition] = useState(null); // 미리보기 Mesh 위치 상태 추가
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -18,17 +18,29 @@ function GridBox(props) {
   const navigate = useNavigate();
   const [curPosition, setCurPosition] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
+  const { id } = useParams();
+
+  function GLTFModel({ modelUrl, position, message }) {
+    const { scene } = useGLTF(modelUrl);
+    const copiedScene = useMemo(() => scene.clone(), [scene]);
+
+    return (
+      <group>
+        <primitive object={copiedScene} position={position} scale={0.3} />
+      </group>
+    );
+  }
 
   //공통 기능으로 뺄 것.
   async function addTemp() {
     try {
-      const response = await axios.post(`/api/message/${props.treeId}/write`, {
+      const response = await axios.post(`/api/message/${id}/write`, {
         message: props.input,
         icon: props.image,
         coordinate: { x: curPosition[0], y: curPosition[1], z: curPosition[2] }
       });
       setPostSuccess(true);
-      handleAlertCreate(`${props.treeId}님에게 장식품을 전달했어요!`);
+      handleAlertCreate(`${id}님에게 장식품을 전달했어요!`);
     } catch (error) {
       handleAlertCreate('다시 시도해주세요 ㅠ.ㅠ');
     }
@@ -60,7 +72,7 @@ function GridBox(props) {
 
     if (postSuccess) {
       setPostSuccess(false);
-      navigate(`../guest/tree/${props.treeId}`);
+      navigate(`../guest/tree/${id}`);
     }
   };
 
@@ -92,13 +104,18 @@ function GridBox(props) {
           <boxGeometry args={[5, 1, 5]} />
           <meshStandardMaterial attach="material" color="#b97a20" />
         </mesh>
-        {objects.map((pos, index) => (
-          <mesh key={index} position={pos}>
-            {/* <boxGeometry args={[0.8, 0.8, 0.8]} />
-          <meshStandardMaterial color="hotpink" /> */}
-            <ImageMesh modelUrl={props.image} position={pos} scale={0.4} />
-          </mesh>
-        ))}
+        {props.objects.length > 0 &&
+          props.objects.map((obj, index) => {
+            const { x, y, z } = obj.coordinate;
+            return (
+              <GLTFModel
+                position={[x, 0.13, z]}
+                key={`object-${index}`}
+                modelUrl={obj.icon}
+                message={obj.message}
+              />
+            );
+          })}
         {previewPosition && ( // 미리보기 Mesh 렌더링
           <mesh position={previewPosition}>
             {/* <boxGeometry args={[0.8, 0.8, 0.8]} /> */}
@@ -126,11 +143,28 @@ function GridBox(props) {
 function Temp() {
   const [cameraPosition, setCameraPosition] = useState([0, 5, 7]);
   const [cameraState, setCameraState] = useState('위에서 보기');
+  const [objects, setObjects] = useState([]);
 
   const location = useLocation();
-  const { image, input } = location.state;
-  const params = useParams();
-  const treeId = params.id;
+  const { image, input, pageNumber } = location.state;
+  const [nowPageNumber, setPageNumber] = useState(pageNumber);
+  const { id } = useParams();
+
+  async function fetchAllMessage(id, pageNum, size) {
+    try {
+      const response = await axios.get(`/api/message/${id}/all`, {
+        params: {
+          count: pageNum,
+          size: size
+        }
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('메시지를 불러오는데 실패했습니다:', error);
+      return null;
+    }
+  }
 
   const handleButtonClick = () => {
     if (cameraState === '원래대로 보기') {
@@ -142,6 +176,17 @@ function Temp() {
     }
   };
 
+  const handlePageChange = (direction) => {
+    if (direction === 'left') {
+      if (nowPageNumber > 1) {
+        setPageNumber(nowPageNumber - 1);
+      }
+    } else if (direction === 'right') {
+      console;
+      setPageNumber(nowPageNumber + 1);
+    }
+  };
+
   const CameraController = () => {
     const { camera } = useThree();
     useEffect(() => {
@@ -150,6 +195,17 @@ function Temp() {
     }, [camera, cameraPosition]);
     return null;
   };
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const allMessage = await fetchAllMessage(id, nowPageNumber, 25);
+      if (allMessage) {
+        setObjects(allMessage);
+      }
+    };
+    fetchMessages();
+    console.log(objects);
+  }, [id, nowPageNumber]);
 
   return (
     <>
@@ -177,15 +233,18 @@ function Temp() {
         <GridBox
           image={image}
           input={input}
-          treeId={treeId}
           position={[0, 0, 0]}
+          objects={objects}
+          setObjects={setObjects}
         />
       </Canvas>
-      <div
-        className="fixed bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider text-center"
-        onClick={handleButtonClick}
-      >
-        {cameraState}
+
+      <div className="fixed flex justify-around bottom-0 w-full left-1/2 transform -translate-x-1/2 p-12 bg-pink-200 rounded-full text-2xl font-bold cursor-pointer tracking-wider">
+        <button onClick={() => handlePageChange('left')}>L</button>
+        <div className="text-centered" onClick={handleButtonClick}>
+          {cameraState}
+        </div>
+        <button onClick={() => handlePageChange('right')}>R</button>
       </div>
     </>
   );

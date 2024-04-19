@@ -11,7 +11,7 @@ function Message() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { image } = location.state;
+  const { image, pageNumber } = location.state;
 
   const params = useParams();
   const treeId = params.id;
@@ -42,16 +42,17 @@ function Message() {
 
   const addNote = async () => {
     setInput('');
+    console.log(pageNumber);
     navigate(`../guest/tree/${treeId}/image/message/temp`, {
-      state: { image, input }
+      state: { image, input, pageNumber }
     });
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BackArrow />
-      <h1 className="text-center my-8 text-2xl font-bold">
-        메세지를 남겨주세요!
+      <BackArrow pageNumber={pageNumber} />
+      <h1 className="text-center text-neutral text-3xl font-custom font-black my-8">
+        메세지를 입력해 줘!
       </h1>
       <div className="relative flex-grow">
         <div className="flex flex-col items-center justify-center">
@@ -82,10 +83,10 @@ function Message() {
           ></textarea>
 
           <div
-            className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-xl font-bold cursor-pointer tracking-wider bg-pink-200"
+            className="bottom-0 absolute rounded-full py-4 px-5 uppercase text-2xl font-bold cursor-pointer tracking-wider bg-pink-200 font-custom"
             onClick={() => handleInputCheck()}
           >
-            메세지 남기러 가기
+            꾸미러 가기!
           </div>
 
           {showAlert && (

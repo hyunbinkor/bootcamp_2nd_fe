@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import backgroundImage from './TreeBackground.png';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import useAxios from '../../components/hooks/useAxios';
 
 function Decoration({ imageUrl, onClick }) {
@@ -50,7 +49,7 @@ const handleCopyClipBoard = async (text) => {
 function HostTree() {
   const { id } = useParams();
   console.log(id);
-  const baseUrl = 'localhost:4000';
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   const [decorations, setDecorations] = useState([]);
   const { response } = useAxios({
     url: `/api/message/${id}/all`,

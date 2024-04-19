@@ -13,6 +13,7 @@ function Message() {
 
   useEffect(() => {
     const { message, icon } = location.state;
+    console.log(icon)
     setInput(message);
     setImage(icon);
   }, [location.state]);
