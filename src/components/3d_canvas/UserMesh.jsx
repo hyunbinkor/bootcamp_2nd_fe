@@ -1,20 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useLoader, useFrame } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useFrame } from '@react-three/fiber';
 import { useSpring, a } from '@react-spring/three';
 import { Vector3 } from 'three';
+import useGLTF from '../hooks/useGLTF';
 
 function UserMesh({ userPosition, character }) {
-  console.log();
-  const [userCharacter, setCharacter] = useState(character);
+  let gltf = { scene: { traverse: () => {} } };
   if (!character) {
-    setCharacter('dog');
+    gltf = useGLTF(
+      `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/dog/model.gltf`
+    );
+  } else {
+    gltf = useGLTF(
+      `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${character}/model.gltf`
+    );
   }
   const meshRef = useRef();
-  const gltf = useLoader(
-    GLTFLoader,
-    `https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/${userCharacter}/model.gltf`
-  );
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [spring, api] = useSpring(() => ({
     position: [0, 0, 0],
@@ -27,7 +28,7 @@ function UserMesh({ userPosition, character }) {
         setIsModelLoaded(true); // 모델이 로드되었을 때 상태 설정
       }
     });
-  }, [gltf.scene]);
+  }, [gltf.scene.traverse]);
 
   // 사용자 위치를 이전 위치로 설정하기 위한 ref
   const prevPositionRef = useRef(new Vector3());
