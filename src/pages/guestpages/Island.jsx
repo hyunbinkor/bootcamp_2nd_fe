@@ -18,7 +18,7 @@ async function getUserInfo(id) {
 
 async function fetchAllMessage(id, pageNum, size) {
   try {
-    const response = await axios.get(`/api/message/${id}/all`, {
+    const response = await axios.get(`/api/message/${id}/guestAll`, {
       params: {
         count: pageNum,
         size: size

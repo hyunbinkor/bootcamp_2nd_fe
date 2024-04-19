@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import useAxios from '../hooks/useAxios';
@@ -6,6 +6,7 @@ import useAxios from '../hooks/useAxios';
 const DeleteUser = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 생성
   const { trigger } = useAxios({
     url: '/api/oauth/user/delete'
   });
@@ -18,11 +19,14 @@ const DeleteUser = () => {
     setShowModal(false);
   };
 
-  const handleModalComplete = () => {
-    trigger({
+  const handleModalComplete = async () => {
+    // 계정 삭제 요청 보내기
+    await trigger({
       method: 'delete'
     });
     setShowModal(false);
+
+    // 계정 삭제 완료 후 홈으로 이동
     navigate('/home');
   };
 
