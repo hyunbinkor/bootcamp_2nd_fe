@@ -1,5 +1,6 @@
 import { SubTitle, Title } from '../../components/atom/Titles';
 import { KakaoButton, NaverButton } from '../../components/atom/Buttons';
+import useAxios from '../../components/hooks/useAxios';
 
 const Home = () => {
   if (!window.Kakao.isInitialized()) {
