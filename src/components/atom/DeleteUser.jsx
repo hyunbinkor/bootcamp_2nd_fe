@@ -6,7 +6,6 @@ import useAxios from '../hooks/useAxios';
 const DeleteUser = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 생성
   const { trigger } = useAxios({
     url: '/api/oauth/user/delete'
   });

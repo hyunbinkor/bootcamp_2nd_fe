@@ -5,6 +5,7 @@ import { useSpring, a } from '@react-spring/three';
 import { Vector3 } from 'three';
 
 function UserMesh({ userPosition, character }) {
+  console.log()
   if (!character) {
     character = "dog";
   }

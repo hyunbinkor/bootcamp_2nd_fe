@@ -36,7 +36,7 @@ function GLTFModel({ modelUrl, position }) {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
   return (
     <group>
-      <primitive object={copiedScene} position={position} scale={0.5} />
+      <primitive object={copiedScene} position={position} scale={0.4} />
     </group>
   );
 }

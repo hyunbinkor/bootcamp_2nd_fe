@@ -31,7 +31,7 @@
       return response.data;
     } catch (error) {
       console.error('메시지를 불러오는데 실패했습니다:', error);
-      return null;
+      window.location.href = `/home`;
     }
   }
 
@@ -41,7 +41,7 @@
 
     return (
       <group>
-        <primitive object={copiedScene} position={position} scale={0.3} />
+        <primitive object={copiedScene} position={position} scale={0.4} />
       </group>
     );
   }
