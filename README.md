@@ -1,8 +1,34 @@
-# React + Vite
+# 온라인 소통 서비스 "나만의 담벼락" (FrontEnd)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![image](https://github.com/LEEJINTAEK/message-service/assets/109197023/59fe96f1-c812-47ef-824c-8da0a1235dc0)
 
-Currently, two official plugins are available:
+<br />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[**데모 영상 👈**](https://drive.google.com/file/d/1MqMUOaSCAYEb9bUpZUQfzs8hMA5QyQGT/view)
+
+- 여러 행사 때 추억을 공유하고 즐기고 싶은 사람들이 이용하는 서비스.
+- 섬의 주인이 나만의 섬 링크를 공유하고 다른 사용자가 추억을 공유하는 서비스.
+
+<br />
+<br />
+
+## 소개
+
+<br />
+
+![image](https://github.com/LEEJINTAEK/message-service/assets/109197023/9ef05f31-cbfa-42b1-9d77-6697506da46f)
+
+<br />
+
+![image](https://github.com/LEEJINTAEK/message-service/assets/109197023/f7fe88c0-2bf9-4cd0-98a7-040081b7adb5)
+
+<br />
+
+![image](https://github.com/LEEJINTAEK/message-service/assets/109197023/b6f8550c-964c-439d-a98f-e14fb6788709)
+
+<br />
+<br />
+
+## 서비스 아키텍처
+
+![image](https://github.com/LEEJINTAEK/message-service/assets/109197023/f28db559-19a6-4baf-bfaf-f38c14866926)
